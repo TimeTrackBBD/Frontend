@@ -8,6 +8,7 @@ root.render(
   <React.StrictMode>
     <HomePage />
   </React.StrictMode>
+  
 );
 
 
