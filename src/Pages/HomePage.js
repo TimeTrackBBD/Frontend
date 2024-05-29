@@ -1,41 +1,22 @@
-import './HomePage.css';
-import { useState } from 'react';
+import React from "react";
+import { DataGrid } from "@mui/x-data-grid";
+import { Box } from "@mui/material";
 
-const ApiRoot = 'bob';
+export const HomePage = () => {
+  const rows = [
+    { id: 1, col1: "Hello", col2: "World" },
+    { id: 2, col1: "DataGridPro", col2: "is Awesome" },
+    { id: 3, col1: "MUI", col2: "is Amazing" },
+  ];
 
-function HomePage() {
-
-  const [responseField, setResponseField] = useState("click button");
-
-  const helloWorld = async () => {
-    try {
-      const response = await fetch(`${ApiRoot}/api/helloworld`);
-      const body = await response.json()
-      if (response.ok){
-        setResponseField(body);
-      }
-      else{
-        setResponseField(`Oh no: ${response.status} ${body.message}` );
-      }
-    } catch {
-      setResponseField("button was clicked but no response from api");
-    }
-  }
+  const columns = [
+    { field: "col1", headerName: "Column 1", width: 150 },
+    { field: "col2", headerName: "Column 2", width: 150 },
+  ];
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Hit the following button to ping the helloworld endpoint of the server
-        </p>
-      </header>
-      <article>
-        <button onClick={helloWorld} > helloWorld</button>
-        <p>{responseField}</p>
-      </article>
-
-    </div>
+    <Box sx={{ display: "flex" }}>
+      <DataGrid rows={rows} columns={columns} />
+    </Box>
   );
-}
-
-export default HomePage;
+};
