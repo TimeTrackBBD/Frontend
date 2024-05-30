@@ -4,7 +4,7 @@ import "./index.css";
 import { TimerPage } from "./Pages/TimerPage/TimerPage";
 import { HomePage } from "./Pages/HomePage/HomePage";
 import { Paper } from "@mui/material";
-import { Home } from "@mui/icons-material";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -12,7 +12,7 @@ root.render(
     square
     elevation={0}
     style={{
-      background: "#9d9fb0",
+      background: "#eeeeee",
       height: "100vh",
       display: "flex",
       flexDirection: "column",
@@ -20,7 +20,12 @@ root.render(
     }}
   >
     <React.StrictMode style={{ height: "100%" }}>
-      <HomePage />
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/timer/:taskId" element={<TimerPage />} />
+        </Routes>
+      </Router>
     </React.StrictMode>
   </Paper>
 );
