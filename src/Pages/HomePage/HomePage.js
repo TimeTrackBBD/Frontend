@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Paper, Button, Typography } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -6,6 +6,8 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { TaskCard } from "../../Components/TaskCard/TaskCard";
 import { formatTimeWithUnits } from "../../utils/formatTime";
+import { ProjectModal } from "../../Components/ProjectModal/ProjectModal";
+import { TaskModal } from "../../Components/TaskModal/TaskModal";
 
 const tasks = [
   {
@@ -49,6 +51,15 @@ const getTotalTime = (project) => {
 //TODO: How to show description?
 
 export const HomePage = () => {
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const handleProjectModalOpen = () => {
+    setIsProjectModalOpen(true);
+  };
+  const handleTaskModalOpen = () => {
+    setIsTaskModalOpen(true);
+  };
+
   return (
     <>
       <Paper
@@ -101,6 +112,7 @@ export const HomePage = () => {
             style={{ marginLeft: "auto" }}
             variant="contained"
             color="success"
+            onClick={handleProjectModalOpen}
           >
             Create project
           </Button>
@@ -138,6 +150,7 @@ export const HomePage = () => {
               <Button
                 style={{ marginLeft: "auto", marginRight: "0.5rem" }}
                 variant="contained"
+                onClick={handleTaskModalOpen}
               >
                 Create task
               </Button>
@@ -149,6 +162,11 @@ export const HomePage = () => {
             </AccordionDetails>
           </Accordion>
         ))}
+        <ProjectModal
+          isOpen={isProjectModalOpen}
+          setIsOpen={setIsProjectModalOpen}
+        />
+        <TaskModal isOpen={isTaskModalOpen} setIsOpen={setIsTaskModalOpen} />
       </Paper>
     </>
   );
