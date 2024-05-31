@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import { InputModal } from "./Pages/InputModal";
+// import { LoginPage } from "./Pages/LoginPage";
 import { TimerPage } from "./Pages/TimerPage/TimerPage";
 import { HomePage } from "./Pages/HomePage/HomePage";
 import { Paper } from "@mui/material";

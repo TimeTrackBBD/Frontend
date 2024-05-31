@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { formatTimeWithUnits } from "../utils/formatTime";
+import { formatTimeWithUnits } from "../../utils/formatTime";
 import { useNavigate } from "react-router-dom";
 
 const getPriorityColor = (priority) => {

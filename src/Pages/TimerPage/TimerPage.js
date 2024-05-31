@@ -45,7 +45,7 @@ export const TimerPage = () => {
         <Button
           style={{ marginRight: "auto" }}
           onClick={() => {
-            navigate("/");
+            navigate("/home");
           }}
         >
           Back
