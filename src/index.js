@@ -1,8 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { InputModal } from "./Pages/InputModal";
-// import { LoginPage } from "./Pages/LoginPage";
+import { LoginPage } from "./Pages/LoginPage/LoginPage";
 import { TimerPage } from "./Pages/TimerPage/TimerPage";
 import { HomePage } from "./Pages/HomePage/HomePage";
 import { Paper } from "@mui/material";
@@ -14,7 +13,6 @@ root.render(
     square
     elevation={0}
     style={{
-      background: "#eeeeee",
       height: "100vh",
       display: "flex",
       flexDirection: "column",
@@ -24,7 +22,8 @@ root.render(
     <React.StrictMode style={{ height: "100%" }}>
       <Router>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/home" element={<HomePage />} />
           <Route path="/timer/:taskId" element={<TimerPage />} />
         </Routes>
       </Router>
