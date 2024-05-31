@@ -1,0 +1,89 @@
+body {
+    background-image: url('../images/loginBG.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.appBar.MuiAppBar-root {
+    background-color: black;
+}
+
+.timeTrackHeading {
+    color: white;
+    font-family: 'Arial', sans-serif;
+    font-size: 2rem; /* Increase the font size */
+    font-weight: italic;
+    text-transform: lowercase;
+    font-variant: small-caps;
+    display: flex;
+    align-items: center;
+}
+
+.pendingActionsIcon {
+    color: white;
+    font-size: 2rem; /* Increase the icon size */
+    margin-right: 8px; /* Add some space between the icon and the heading */
+}
+
+.centerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 64px); /* Subtract AppBar height */
+    padding-top: 100px; /* Move the button lower */
+}
+
+.customButton {
+    background-color: black !important;
+    color: white !important;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    text-transform: lowercase;
+    font-variant: small-caps;
+    padding: 16px 32px; /* Increase the button size */
+    font-size: 1.5rem; /* Increase the font size */
+    border: 2px solid white !important; /* Add a white border */
+    transition: background-color 0.3s ease;
+}
+
+.customButton:hover {
+    background-color: #555 !important;
+}
+
+.fixedModalContainer {
+    position: fixed;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Prevent interactions with the modal container */
+}
+
+.customFixedModal {
+    background-color: white;
+    border: 3px solid black;
+    padding: 16px 32px;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    box-shadow: 50px 50px 50px rgba(0, 0, 0, 0.5); /* Add some shadow for better visibility */
+    pointer-events: auto; /* Enable interactions within the modal */
+}
+
+.modalText {
+    font-size: 1.5rem;
+    color: black;
+    font-weight: bold;
+}
