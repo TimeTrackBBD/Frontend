@@ -24,7 +24,7 @@ root.render(
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/timer/:taskId" element={<TimerPage />} />
+          <Route path="/timer" element={<TimerPage />} />
         </Routes>
       </Router>
     </React.StrictMode>

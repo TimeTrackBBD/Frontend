@@ -19,17 +19,26 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export const ProjectModal = ({ isOpen, setIsOpen }) => {
-  const [projectName, setProjectName] = React.useState();
+export const ProjectModal = ({ isOpen, setIsOpen, edit, project }) => {
+  const [projectName, setProjectName] = React.useState("");
   const [projectNameValid, setProjectNameValid] = React.useState(false);
-  const [description, setDescription] = React.useState();
+  const [description, setDescription] = React.useState("");
   const [descriptionValid, setDescriptionValid] = React.useState(false);
 
   const [errorChecking, setErrorChecking] = React.useState(false);
 
+  React.useEffect(() => {
+    if (edit && project) {
+      setProjectName(project?.projectName);
+      setDescription(project?.description);
+    }
+  }, [edit, project]);
+
   const handleClose = () => {
-    setProjectName(false);
+    setProjectNameValid(false);
     setDescriptionValid(false);
+    setProjectName("");
+    setDescription("");
     setErrorChecking(false);
     setIsOpen(false);
   };
@@ -53,7 +62,7 @@ export const ProjectModal = ({ isOpen, setIsOpen }) => {
   const saveProject = () => {
     setErrorChecking(true);
     if (projectNameValid && descriptionValid) {
-      //TODO: API CALL to save new project
+      //TODO: API CALL to save new project / edit an existing one
       console.log(projectName, description);
       handleClose();
     }
@@ -61,7 +70,9 @@ export const ProjectModal = ({ isOpen, setIsOpen }) => {
 
   return (
     <BootstrapDialog onClose={handleClose} open={isOpen}>
-      <DialogTitle sx={{ m: 0, p: 2 }}>Create new project</DialogTitle>
+      <DialogTitle sx={{ m: 0, p: 2 }}>
+        {!edit ? "Create new project" : "Edit project"}
+      </DialogTitle>
       <IconButton
         aria-label="close"
         onClick={handleClose}
@@ -79,6 +90,7 @@ export const ProjectModal = ({ isOpen, setIsOpen }) => {
           <TextField
             label="Project name"
             variant="outlined"
+            value={projectName}
             fullWidth
             error={errorChecking && !projectNameValid}
             helperText={"Enter a project name"}
@@ -87,6 +99,7 @@ export const ProjectModal = ({ isOpen, setIsOpen }) => {
           <TextField
             label="Description"
             variant="outlined"
+            value={description}
             fullWidth
             multiline
             error={errorChecking && !descriptionValid}
@@ -97,7 +110,7 @@ export const ProjectModal = ({ isOpen, setIsOpen }) => {
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={saveProject} className="customButton">
-          Create project
+          {!edit ? "Create project" : "Edit project"}
         </Button>
       </DialogActions>
     </BootstrapDialog>
