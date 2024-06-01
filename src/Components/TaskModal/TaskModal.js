@@ -23,7 +23,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export const TaskModal = ({ isOpen, setIsOpen }) => {
+export const TaskModal = ({ isOpen, setIsOpen, edit, task }) => {
   const [taskName, setTaskName] = React.useState();
   const [taskNameValid, setTaskNameValid] = React.useState(false);
   const [description, setDescription] = React.useState();
@@ -31,6 +31,14 @@ export const TaskModal = ({ isOpen, setIsOpen }) => {
   const [priority, setPriority] = React.useState("Medium");
   const [priorityValid, setPriorityValid] = React.useState(false);
   const [errorChecking, setErrorChecking] = React.useState(false);
+
+  React.useEffect(() => {
+    if (edit && task) {
+      setTaskName(task.taskName);
+      setDescription(task.description);
+      setPriority(task.priority);
+    }
+  }, [edit, task]);
 
   const handleClose = () => {
     setTaskNameValid(false);
@@ -66,17 +74,18 @@ export const TaskModal = ({ isOpen, setIsOpen }) => {
 
   const saveTask = () => {
     setErrorChecking(true);
-    console.log(taskNameValid);
     if (taskNameValid && descriptionValid && priorityValid) {
-      //TODO: API CALL to save new task
+      //TODO: API CALL to save new task or edit existing one
       console.log(taskNameValid, description, priority);
       handleClose();
     }
   };
-  console.log(taskNameValid);
+
   return (
     <BootstrapDialog onClose={handleClose} open={isOpen}>
-      <DialogTitle sx={{ m: 0, p: 2 }}>Create new task</DialogTitle>
+      <DialogTitle sx={{ m: 0, p: 2 }}>
+        {!edit ? "Create new task" : "Edit task"}
+      </DialogTitle>
       <IconButton
         aria-label="close"
         onClick={handleClose}
@@ -94,6 +103,7 @@ export const TaskModal = ({ isOpen, setIsOpen }) => {
           <TextField
             label="Task name"
             variant="outlined"
+            value={taskName}
             fullWidth
             error={errorChecking && !taskNameValid}
             helperText={"Enter a task name"}
@@ -102,6 +112,7 @@ export const TaskModal = ({ isOpen, setIsOpen }) => {
           <TextField
             label="Description"
             variant="outlined"
+            value={description}
             fullWidth
             multiline
             error={errorChecking && !descriptionValid}
@@ -129,7 +140,7 @@ export const TaskModal = ({ isOpen, setIsOpen }) => {
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={saveTask} className="customButton">
-          Create task
+          {!edit ? "Create task" : "Edit task"}
         </Button>
       </DialogActions>
     </BootstrapDialog>
