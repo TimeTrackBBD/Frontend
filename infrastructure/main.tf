@@ -10,7 +10,7 @@ resource "aws_elastic_beanstalk_application" "time_track_app" {
 resource "aws_elastic_beanstalk_environment" "time_track_env" {
   name                = "TimeTrackEnvironment"
   application         = aws_elastic_beanstalk_application.time_track_app.name
-  solution_stack_name = "64bit Amazon Linux 2 v5.4.6 running Node.js 14"
+  solution_stack_name = "64bit Amazon Linux 2 v5.9.2 running Node.js 14"
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
