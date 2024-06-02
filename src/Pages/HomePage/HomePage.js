@@ -14,7 +14,6 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
-import { TaskCard } from "../../Components/TaskCard/TaskCard";
 import { formatTimeWithUnits } from "../../utils/formatTime";
 import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
