@@ -1,5 +1,4 @@
 import React from "react";
-import { createRoot } from "react-dom";
 import "./index.css";
 import { LoginPage } from "./Pages/LoginPage/LoginPage";
 import { TimerPage } from "./Pages/TimerPage/TimerPage";
