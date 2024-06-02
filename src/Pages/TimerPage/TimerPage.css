@@ -1,0 +1,125 @@
+/* TimerPage.css */
+
+.appBar.MuiAppBar-root {
+  background-color: black;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1100;
+}
+
+.timeTrackHeading {
+  color: white;
+  font-family: "Arial", sans-serif;
+  font-size: 2rem;
+  font-weight: italic;
+  text-transform: lowercase;
+  font-variant: small-caps;
+  display: flex;
+  align-items: center;
+}
+
+.pendingActionsIcon {
+  color: white;
+  font-size: 2rem;
+  margin-right: 8px;
+}
+
+.customButton {
+  background-color: black !important;
+  color: white !important;
+  font-family: "Arial", sans-serif;
+  font-weight: bold;
+  text-transform: lowercase;
+  font-variant: small-caps;
+  padding: 8px 16px;
+  font-size: 1rem;
+  border: 2px solid white !important;
+  transition: background-color 0.3s ease;
+}
+
+.customButton:hover {
+  background-color: #555 !important;
+}
+
+.timer-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10%;
+  background: linear-gradient(130deg, white, gray);
+  min-height: 100vh;
+}
+.startButton {
+  background-color: #65c465 !important;
+  color: white !important;
+  border: 2px solid black !important;
+}
+
+.pauseButton {
+  background-color: #fc2b2b !important;
+  color: white !important;
+  border: 2px solid black !important;
+}
+
+.resetButton {
+  background-color: #949393 !important;
+  color: white !important;
+  border: 2px solid black !important;
+}
+
+.saveButton {
+  background-color: #42a8dc !important;
+  color: white !important;
+  border: 2px solid black !important;
+}
+
+.timer-page-container {
+  background: linear-gradient(135deg, #ece9e6, #ffffff);
+  height: 100vh;
+  padding-top: 64px; /* Adjust for AppBar height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.content-container {
+  max-width: 600px;
+  width: 100%;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.task-name {
+  font-family: "Arial", sans-serif;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 10px;
+}
+
+.task-description {
+  font-family: "Arial", sans-serif;
+  font-size: 1.2rem;
+  color: grey;
+}
+
+.timer-display {
+  border: 0.25rem solid #333;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  display: inline-block;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+  background: #f7f7f7;
+}
+
+.timer-text {
+  font-family: "Arial", sans-serif;
+  font-size: 3rem;
+  font-weight: bold;
+  color: #333;
+}

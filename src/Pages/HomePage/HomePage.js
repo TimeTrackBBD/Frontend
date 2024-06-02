@@ -1,11 +1,13 @@
 import React from "react";
-import { Paper, Button, Typography } from "@mui/material";
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
+import { Paper, Button, Typography, Box, AppBar, Toolbar, Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import LogoutIcon from '@mui/icons-material/Logout';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import { TaskCard } from "../../Components/TaskCard/TaskCard";
 import { formatTimeWithUnits } from "../../utils/formatTime";
+import { useNavigate } from "react-router-dom";
+import "./HomePage.css";
 
 const tasks = [
   {
@@ -44,55 +46,53 @@ const getTotalTime = (project) => {
   );
   return totalTime;
 };
-//TODO: Handle if no projects
-//TODO: Finish designs
-//TODO: How to show description?
 
 export const HomePage = () => {
-  return (
-    <>
-      <Paper
-        square
-        elevation={0}
-        style={{
-          display: "flex",
-          background: "#585b73",
-          padding: "1rem",
-        }}
-      >
-        <Button style={{ marginRight: "auto" }}>Back</Button>
-        <Typography variant="h2">TimeTrack</Typography>
-        <Button
-          variant="contained"
-          color="error"
-          style={{ marginLeft: "auto" }}
-        >
-          Logout
-        </Button>
-      </Paper>
+  const navigate = useNavigate();
 
-      <Paper
-        square
-        elevation={0}
-        style={{
-          flexGrow: 1,
-          display: "flex",
-          flexDirection: "column",
-          alignContent: "center",
-          alignSelf: "center",
-          padding: "1rem",
-          width: "50vw",
-          background: "inherit",
-        }}
-      >
+  return (
+    <Box className="home-page-container">
+      <AppBar position="static" className="appBar">
+        <Toolbar>
+          <Button
+            onClick={() => {
+              navigate("/home");
+            }}
+            startIcon={<ArrowBackIcon />}
+            className="customButton"
+            size="medium"
+          >
+            Back
+          </Button>
+          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <PendingActionsIcon className="pendingActionsIcon" />
+            <Typography
+              variant="h4"
+              component="div"
+              className="timeTrackHeading"
+            >
+              Timetrack
+            </Typography>
+          </Box>
+          <Button
+            variant="contained"
+            onClick={() => {
+              navigate("/home");
+            }}
+            startIcon={<LogoutIcon />}
+            className="customButton"
+            size="medium"
+          >
+            Log Out
+          </Button>
+        </Toolbar>
+      </AppBar>
+
+      <Box className="content-wrapper">
         <Paper
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            background: "inherit",
-          }}
           square
           elevation={0}
+          className="header-container"
         >
           <Typography variant="h5" fontWeight={600}>
             Your projects
@@ -109,18 +109,14 @@ export const HomePage = () => {
         {projects.map((project, index) => (
           <Accordion
             key={index}
-            style={{
-              margin: "0.5rem 0",
-              borderRadius: "0.5rem",
-              border: "transparent",
-            }}
+            className="accordion"
           >
             <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
               <Typography variant="h6" fontWeight={600}>
                 {project.projectName}
               </Typography>
               <Typography
-                variant="b1"
+                variant="body1"
                 fontWeight={600}
                 marginLeft={"auto"}
                 alignSelf={"center"}
@@ -136,20 +132,28 @@ export const HomePage = () => {
               }}
             >
               <Button
-                style={{ marginLeft: "auto", marginRight: "0.5rem" }}
+                className="create-task-button"
                 variant="contained"
+                style={{ marginLeft: "auto" }}
               >
                 Create task
               </Button>
               <Paper square elevation={0}>
                 {project.tasks.map((item) => (
-                  <TaskCard task={item}></TaskCard>
+                  <Paper key={item.taskId} className="task-card">
+                    <Typography className="task-card-title">{item.taskName}</Typography>
+                    <Typography className="task-card-description">{item.description}</Typography>
+                    <Box className="task-card-footer">
+                      <Typography>Priority: {item.priority}</Typography>
+                      <Typography>Duration: {formatTimeWithUnits(item.duration)}</Typography>
+                    </Box>
+                  </Paper>
                 ))}
               </Paper>
             </AccordionDetails>
           </Accordion>
         ))}
-      </Paper>
-    </>
+      </Box>
+    </Box>
   );
 };
