@@ -129,7 +129,7 @@ export const HomePage = () => {
             color="success"
             onClick={() => handleProjectModalOpen(false, null)}
           >
-            Create project
+            Create new project
           </Button>
         </Paper>
 
