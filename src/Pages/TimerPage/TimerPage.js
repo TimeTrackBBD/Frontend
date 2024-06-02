@@ -1,12 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { Grid, Typography, Button, Box, Paper } from "@mui/material";
+import * as React from "react";
+import { useState, useEffect } from "react";
+import { AppBar, Box, Toolbar, Typography, Button, Grid } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
+import "./TimerPage.css";
+import { useNavigate, useLocation } from "react-router-dom";
 import { formatTime } from "../../utils/formatTime";
-import { useLocation, useNavigate } from "react-router-dom";
 
 export const TimerPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const task = location.state.task;
+  const task = location.state
+    ? location.state.task
+    : {
+        taskName: "Sample Task",
+        description: "Sample Description",
+        duration: 0,
+      };
 
   const [time, setTime] = useState(task.duration);
   const [isRunning, setIsRunning] = useState(false);
@@ -33,84 +44,94 @@ export const TimerPage = () => {
     setIsRunning(false);
     setTime(0);
   };
-  //TODO: Make description and name editable
-  //TODO: Show priority
+
   return (
-    <>
-      <Paper
-        square
-        elevation={0}
-        style={{ display: "flex", background: "#585b73", padding: "1rem" }}
-      >
-        <Button
-          style={{ marginRight: "auto" }}
-          onClick={() => {
-            navigate("/home");
-          }}
-        >
-          Back
-        </Button>
-
-        <Typography variant="h2">TimeTrack</Typography>
-        <Button
-          variant="contained"
-          color="error"
-          style={{ marginLeft: "auto" }}
-        >
-          Logout
-        </Button>
-      </Paper>
-
+    <Box className="timer-page-container">
+      <AppBar position="static" className="appBar">
+        <Toolbar>
+          <Button
+            onClick={() => {
+              navigate("/home");
+            }}
+            startIcon={<ArrowBackIcon />}
+            className="customButton"
+            size="medium"
+          >
+            Back
+          </Button>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <PendingActionsIcon className="pendingActionsIcon" />
+            <Typography
+              variant="h4"
+              component="div"
+              className="timeTrackHeading"
+            >
+              Timetrack
+            </Typography>
+          </Box>
+          <Button
+            variant="contained"
+            onClick={() => {
+              navigate("/home");
+            }}
+            startIcon={<LogoutIcon />}
+            className="customButton"
+            size="medium"
+          >
+            Log Out
+          </Button>
+        </Toolbar>
+      </AppBar>
       <Grid
         container
         direction="column"
         alignItems="center"
         spacing={3}
-        style={{
-          flexGrow: 1,
-          display: "flex",
-          alignContent: "center",
-          justifyContent: "center",
-        }}
+        className="content-container"
       >
         <Grid item>
-          <Typography variant="h2">{task.taskName}</Typography>
-          <Typography variant="b1">{task.description}</Typography>
+          <Typography variant="h2" className="task-name">
+            {task.taskName}
+          </Typography>
+          <Typography variant="body1" className="task-description">
+            {task.description}
+          </Typography>
         </Grid>
         <Grid item>
-          <Box
-            sx={{
-              border: "0.25rem solid black",
-              padding: "1.5rem",
-              borderRadius: "0.5rem",
-              display: "inline-block",
-              boxShadow: "0 0.25rem 0.5rem rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <Typography variant="h1">{formatTime(time)}</Typography>
+          <Box className="timer-display">
+            <Typography variant="h1" className="timer-text">
+              {formatTime(time)}
+            </Typography>
           </Box>
         </Grid>
         <Grid item>
           <Button
             variant="contained"
-            color="primary"
+            className={`startButton ${isRunning ? "pauseButton" : ""}`}
             onClick={isRunning ? handlePause : handleStart}
           >
             {isRunning ? "Pause" : "Start"}
           </Button>
           <Button
             variant="contained"
-            color="secondary"
+            className="resetButton"
             onClick={handleReset}
             style={{ margin: "0 1.5rem" }}
           >
             Reset
           </Button>
-          <Button variant="contained" color="success" onClick={() => {}}>
+          <Button variant="contained" className="saveButton" onClick={() => {}}>
             Save
           </Button>
         </Grid>
       </Grid>
-    </>
+    </Box>
   );
 };
