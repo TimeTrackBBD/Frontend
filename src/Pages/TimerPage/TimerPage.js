@@ -108,13 +108,7 @@ export const TimerPage = () => {
           >
             Reset
           </Button>
-          <Button
-            variant="contained"
-            className="saveButton"
-            onClick={() => {
-              console.log(time);
-            }}
-          >
+          <Button variant="contained" className="saveButton" onClick={() => {}}>
             Save
           </Button>
         </Grid>

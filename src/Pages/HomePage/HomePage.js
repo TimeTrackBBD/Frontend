@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Paper, Button, Typography, Box, AppBar, Toolbar, Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -8,6 +8,10 @@ import { TaskCard } from "../../Components/TaskCard/TaskCard";
 import { formatTimeWithUnits } from "../../utils/formatTime";
 import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
+import { ProjectModal } from "../../Components/ProjectModal/ProjectModal";
+import { TaskModal } from "../../Components/TaskModal/TaskModal";
+import { IconButton } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 
 const tasks = [
   {
@@ -34,9 +38,17 @@ const tasks = [
 ];
 
 const projects = [
-  { projectName: "Sanlam", tasks: tasks },
-  { projectName: "Grad Program", tasks: tasks },
-  { projectName: "Personal project", tasks: tasks },
+  { projectName: "Sanlam", description: "The business stuff", tasks: tasks },
+  {
+    projectName: "Grad Program",
+    description: "The education stuff",
+    tasks: tasks,
+  },
+  {
+    projectName: "Personal project",
+    description: "The fun stuff",
+    tasks: tasks,
+  },
 ];
 
 const getTotalTime = (project) => {
@@ -48,7 +60,19 @@ const getTotalTime = (project) => {
 };
 
 export const HomePage = () => {
-  const navigate = useNavigate();
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [isEditProject, setIsEditProject] = useState(false);
+  const [projectToEdit, setProjectToEdit] = useState();
+
+  const handleProjectModalOpen = (edit, project) => {
+    setIsEditProject(edit);
+    setProjectToEdit(project ?? null);
+    setIsProjectModalOpen(true);
+  };
+  const handleTaskModalOpen = () => {
+    setIsTaskModalOpen(true);
+  };
 
   return (
     <Box className="home-page-container">
@@ -101,8 +125,9 @@ export const HomePage = () => {
             style={{ marginLeft: "auto" }}
             variant="contained"
             color="success"
+            onClick={() => handleProjectModalOpen(false, null)}
           >
-            Create project
+            Create new project
           </Button>
         </Paper>
 
@@ -115,6 +140,25 @@ export const HomePage = () => {
               <Typography variant="h6" fontWeight={600}>
                 {project.projectName}
               </Typography>
+              <IconButton
+                sx={{
+                  color: "black",
+                  padding: 0,
+                  cursor: "pointer",
+                }}
+                onClick={() => handleProjectModalOpen(true, project)}
+                color="primary"
+                aria-label="edit"
+              >
+                <EditIcon
+                  sx={{
+                    paddingLeft: "0.2rem",
+                    fontSize: "1.3rem",
+                    display: "flex",
+                    justifySelf: "center",
+                  }}
+                />
+              </IconButton>
               <Typography
                 variant="body1"
                 fontWeight={600}
@@ -135,6 +179,7 @@ export const HomePage = () => {
                 className="create-task-button"
                 variant="contained"
                 style={{ marginLeft: "auto" }}
+                onClick={handleTaskModalOpen}
               >
                 Create task
               </Button>
@@ -153,7 +198,18 @@ export const HomePage = () => {
             </AccordionDetails>
           </Accordion>
         ))}
-      </Box>
-    </Box>
+        <ProjectModal
+          isOpen={isProjectModalOpen}
+          setIsOpen={setIsProjectModalOpen}
+          edit={isEditProject}
+          project={projectToEdit}
+        />
+        <TaskModal
+          isOpen={isTaskModalOpen}
+          setIsOpen={setIsTaskModalOpen}
+          edit={false}
+        />
+      </Paper>
+    </>
   );
 };

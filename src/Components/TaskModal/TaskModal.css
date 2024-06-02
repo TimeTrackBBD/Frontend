@@ -1,0 +1,60 @@
+.appBar.MuiAppBar-root {
+  background-color: black;
+}
+
+.timeTrackHeading {
+  color: white;
+  font-family: "Arial", sans-serif;
+  font-size: 2rem;
+  font-weight: italic;
+  text-transform: lowercase;
+  font-variant: small-caps;
+  display: flex;
+  align-items: center;
+}
+
+.pendingActionsIcon {
+  color: white;
+  font-size: 2rem;
+  margin-right: 8px;
+}
+
+.customButton {
+  background-color: black !important;
+  color: white !important;
+  font-family: "Arial", sans-serif;
+  font-weight: bold;
+  text-transform: lowercase;
+  font-variant: small-caps;
+  padding: 16px 32px;
+  font-size: 1.5rem;
+  border: 3px solid white !important;
+  transition: background-color 0.3s ease;
+}
+
+.customButton:hover {
+  background-color: #555 !important;
+}
+
+.centerButton {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 100%;
+  left: 45%;
+}
+
+.MuiDialogContent-root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.MuiFormControl-root {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.MuiFormControl-root:not(:last-child) {
+  margin-bottom: 20px;
+}
