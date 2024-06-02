@@ -1,4 +1,4 @@
-name: Deploy React App to AWS Elastic Beanstalk
+name: Deploy App to AWS Elastic Beanstalk Environment
 
 on:
   push:
@@ -41,16 +41,3 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: terraform apply -auto-approve
         working-directory: ./infrastructure
-
-      - name: Deploy to Elastic Beanstalk
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          APPLICATION_NAME: "time_track_app"
-          ENVIRONMENT_NAME: "time_track_env"
-        run: |
-          aws configure set default.region $AWS_REGION
-          aws s3 cp build.zip s3://$APPLICATION_NAME/build.zip
-          aws elasticbeanstalk create-application-version --application-name $APPLICATION_NAME --version-label $GITHUB_SHA --source-bundle S3Bucket=$APPLICATION_NAME,S3Key=build.zip
-          aws elasticbeanstalk update-environment --application-name $APPLICATION_NAME --environment-name $ENVIRONMENT_NAME --version-label $GITHUB_SHA
