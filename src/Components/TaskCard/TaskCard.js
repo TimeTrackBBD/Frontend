@@ -31,6 +31,8 @@ export const TaskCard = ({ task }) => {
     setIsTaskModalOpen(true);
   };
 
+  //TODO: Convert priority ID to priority
+
   return (
     <Box
       sx={{

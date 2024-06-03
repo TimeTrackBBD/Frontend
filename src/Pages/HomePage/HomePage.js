@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Paper,
   Button,
@@ -14,51 +14,14 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
-import { formatTimeWithUnits } from "../../utils/formatTime";
+import { formatTimeWithUnits } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
 import { ProjectModal } from "../../Components/ProjectModal/ProjectModal";
 import { TaskModal } from "../../Components/TaskModal/TaskModal";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-
-const tasks = [
-  {
-    taskId: 1,
-    taskName: "Make frontend",
-    duration: 1254,
-    priority: "Low",
-    description: "This is a very important task!",
-  },
-  {
-    taskId: 2,
-    taskName: "Make backend",
-    duration: 4564,
-    priority: "Medium",
-    description: "This is a very important task!",
-  },
-  {
-    taskId: 3,
-    taskName: "Make DB",
-    duration: 55500,
-    priority: "High",
-    description: "This is a very important task!",
-  },
-];
-
-const projects = [
-  { projectName: "Sanlam", description: "The business stuff", tasks: tasks },
-  {
-    projectName: "Grad Program",
-    description: "The education stuff",
-    tasks: tasks,
-  },
-  {
-    projectName: "Personal project",
-    description: "The fun stuff",
-    tasks: tasks,
-  },
-];
+import { getProjectsByUserId, getTasksByProjectId } from "../../api/api";
 
 const getTotalTime = (project) => {
   let totalTime = project.tasks.reduce(
@@ -75,15 +38,58 @@ export const HomePage = () => {
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [isEditProject, setIsEditProject] = useState(false);
   const [projectToEdit, setProjectToEdit] = useState();
+  const [projects, setProjects] = useState([]);
 
   const handleProjectModalOpen = (edit, project) => {
     setIsEditProject(edit);
     setProjectToEdit(project ?? null);
     setIsProjectModalOpen(true);
   };
-  const handleTaskModalOpen = () => {
+
+  const handleProjectModalClose = () => {
+    setIsProjectModalOpen(false);
+    setProjects([]);
+    fetchProjects();
+  };
+
+  const handleTaskModalOpen = (project) => {
+    setProjectToEdit(project ?? null);
     setIsTaskModalOpen(true);
   };
+
+  const handleTaskModalClose = () => {
+    setIsTaskModalOpen(false);
+    setProjects([]);
+    fetchProjects();
+  };
+
+  const fetchTasks = async (projectId) => {
+    try {
+      const response = await getTasksByProjectId(projectId);
+      return response;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const fetchProjects = async () => {
+    try {
+      const response = await getProjectsByUserId(1);
+      let project = {};
+      for (let i = 1; i < response.length; i++) {
+        project = response[i];
+        let tasks = await fetchTasks(project["projectId"]);
+        project["tasks"] = tasks;
+        setProjects((prevProjects) => [...prevProjects, project]);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
 
   return (
     <Box className="home-page-container">
@@ -145,7 +151,7 @@ export const HomePage = () => {
           </Button>
         </Paper>
 
-        {projects.map((project, index) => (
+        {projects?.map((project, index) => (
           <Accordion key={index} className="accordion">
             <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
               <Typography variant="h6" fontWeight={600}>
@@ -190,7 +196,7 @@ export const HomePage = () => {
                 className="create-task-button"
                 variant="contained"
                 style={{ marginLeft: "auto" }}
-                onClick={handleTaskModalOpen}
+                onClick={() => handleTaskModalOpen(project)}
               >
                 Create task
               </Button>
@@ -217,14 +223,15 @@ export const HomePage = () => {
         ))}
         <ProjectModal
           isOpen={isProjectModalOpen}
-          setIsOpen={setIsProjectModalOpen}
+          handleModalClose={handleProjectModalClose}
           edit={isEditProject}
           project={projectToEdit}
         />
         <TaskModal
           isOpen={isTaskModalOpen}
-          setIsOpen={setIsTaskModalOpen}
+          handleModalClose={handleTaskModalClose}
           edit={false}
+          project={projectToEdit}
         />
       </Box>
     </Box>

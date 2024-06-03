@@ -9,6 +9,7 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import "./ProjectModal.css";
+import { createProject, editProject } from "../../api/api";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -19,11 +20,12 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export const ProjectModal = ({ isOpen, setIsOpen, edit, project }) => {
+export const ProjectModal = ({ isOpen, handleModalClose, edit, project }) => {
   const [projectName, setProjectName] = React.useState("");
   const [projectNameValid, setProjectNameValid] = React.useState(false);
   const [description, setDescription] = React.useState("");
   const [descriptionValid, setDescriptionValid] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   const [errorChecking, setErrorChecking] = React.useState(false);
 
@@ -40,7 +42,7 @@ export const ProjectModal = ({ isOpen, setIsOpen, edit, project }) => {
     setProjectName("");
     setDescription("");
     setErrorChecking(false);
-    setIsOpen(false);
+    handleModalClose();
   };
 
   const handleProjectNameChange = (val) => {
@@ -59,12 +61,23 @@ export const ProjectModal = ({ isOpen, setIsOpen, edit, project }) => {
     setDescriptionValid(!!description);
   }, [description]);
 
-  const saveProject = () => {
+  const handleButtonClick = async () => {
     setErrorChecking(true);
+    setLoading(true);
     if (projectNameValid && descriptionValid) {
-      //TODO: API CALL to save new project / edit an existing one
-      console.log(projectName, description);
-      handleClose();
+      try {
+        //TODO: Get the user ID
+        if (edit) {
+          await editProject(1, project?.projectId, projectName, description);
+        } else {
+          await createProject(1, projectName, description);
+        }
+      } catch (error) {
+        console.error("Error creating project", error);
+      } finally {
+        setLoading(false);
+        handleClose();
+      }
     }
   };
 
@@ -91,6 +104,7 @@ export const ProjectModal = ({ isOpen, setIsOpen, edit, project }) => {
             label="Project name"
             variant="outlined"
             value={projectName}
+            disabled={loading}
             fullWidth
             error={errorChecking && !projectNameValid}
             helperText={"Enter a project name"}
@@ -100,6 +114,7 @@ export const ProjectModal = ({ isOpen, setIsOpen, edit, project }) => {
             label="Description"
             variant="outlined"
             value={description}
+            disabled={loading}
             fullWidth
             multiline
             error={errorChecking && !descriptionValid}
@@ -109,7 +124,12 @@ export const ProjectModal = ({ isOpen, setIsOpen, edit, project }) => {
         </form>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={saveProject} className="customButton">
+        <Button
+          autoFocus
+          onClick={handleButtonClick}
+          disabled={loading}
+          className="customButton"
+        >
           {!edit ? "Create project" : "Edit project"}
         </Button>
       </DialogActions>

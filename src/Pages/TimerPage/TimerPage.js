@@ -6,7 +6,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import "./TimerPage.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { formatTime } from "../../utils/formatTime";
+import { formatTime } from "../../utils/utils";
 
 export const TimerPage = () => {
   const navigate = useNavigate();
