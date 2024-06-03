@@ -169,7 +169,7 @@ export const HomePage = () => {
               >
                 <EditIcon
                   sx={{
-                    paddingLeft: "0.2rem",
+                    paddingLeft: "0.5rem",
                     fontSize: "1.3rem",
                     display: "flex",
                     justifySelf: "center",
