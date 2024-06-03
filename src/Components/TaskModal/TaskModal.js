@@ -14,7 +14,7 @@ import Select from "@mui/material/Select";
 import "./TaskModal.css";
 import { priorities } from "../../Models/priorities";
 import { createTask, editTask } from "../../api/api";
-import { getPriorityId } from "../../utils/utils";
+import { getPriorityId, getPriority } from "../../utils/utils";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -88,7 +88,13 @@ export const TaskModal = ({
       const priorityId = getPriorityId(priority);
       try {
         if (edit) {
-          await editTask();
+          await editTask(
+            task?.taskId,
+            task.projectId,
+            taskName,
+            description,
+            priorityId
+          );
         } else {
           await createTask(
             project?.projectId,
@@ -105,6 +111,10 @@ export const TaskModal = ({
       }
     }
   };
+
+  if (edit) {
+    setPriority(getPriority(task?.priority));
+  }
 
   return (
     <BootstrapDialog onClose={handleClose} open={isOpen}>

@@ -24,3 +24,14 @@ export const getPriorityId = (priority) => {
       return 2;
   }
 };
+
+export const getPriority = (priorityId) => {
+  switch (priorityId) {
+    case 1:
+      return "Low";
+    case 3:
+      return "High";
+    default:
+      return "Medium";
+  }
+};

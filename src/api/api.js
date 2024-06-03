@@ -116,7 +116,8 @@ export const editTask = async (
   projectId,
   taskName,
   taskDescription,
-  priorityId
+  priorityId,
+  duration
 ) => {
   const endpoint = `tasks/${taskId}`;
   const url = `${baseUrl}${endpoint}`;
@@ -128,6 +129,7 @@ export const editTask = async (
       taskName: taskName,
       description: taskDescription,
       priorityId: priorityId,
+      duration: duration,
       withCredentials: true,
     });
 
@@ -138,8 +140,6 @@ export const editTask = async (
   }
 };
 
-// Edit Task
-// Get Task (for the timer page)
-// Edit Task (Timer page)
+// Get Task (for the timer page) (not needed?)
 // Delete project
 // Delete Task

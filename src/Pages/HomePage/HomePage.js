@@ -22,6 +22,7 @@ import { TaskModal } from "../../Components/TaskModal/TaskModal";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { getProjectsByUserId, getTasksByProjectId } from "../../api/api";
+import { TaskCard } from "../../Components/TaskCard/TaskCard";
 
 const getTotalTime = (project) => {
   let totalTime = project.tasks.reduce(
@@ -36,6 +37,7 @@ export const HomePage = () => {
 
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [isTaskModalEditOpen, setIsTaskModalEditOpen] = useState(false);
   const [isEditProject, setIsEditProject] = useState(false);
   const [projectToEdit, setProjectToEdit] = useState();
   const [projects, setProjects] = useState([]);
@@ -201,21 +203,9 @@ export const HomePage = () => {
                 Create task
               </Button>
               <Paper square elevation={0}>
-                {project.tasks.map((item) => (
-                  <Paper key={item.taskId} className="task-card">
-                    <Typography className="task-card-title">
-                      {item.taskName}
-                    </Typography>
-                    <Typography className="task-card-description">
-                      {item.description}
-                    </Typography>
-                    <Box className="task-card-footer">
-                      <Typography>Priority: {item.priority}</Typography>
-                      <Typography>
-                        Duration: {formatTimeWithUnits(item.duration)}
-                      </Typography>
-                    </Box>
-                  </Paper>
+                {project?.tasks.map((task) => (
+                  //TODO: Allow user to edit task
+                  <TaskCard task={task}></TaskCard>
                 ))}
               </Paper>
             </AccordionDetails>
