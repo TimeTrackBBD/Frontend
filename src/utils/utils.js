@@ -13,3 +13,25 @@ export const formatTimeWithUnits = (seconds) => {
   const secs = seconds % 60;
   return `${hrs}h ${mins}m ${secs}s`;
 };
+
+export const getPriorityId = (priority) => {
+  switch (priority) {
+    case "Low":
+      return 1;
+    case "High":
+      return 3;
+    default:
+      return 2;
+  }
+};
+
+export const getPriority = (priorityId) => {
+  switch (priorityId) {
+    case 1:
+      return "Low";
+    case 3:
+      return "High";
+    default:
+      return "Medium";
+  }
+};

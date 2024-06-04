@@ -13,6 +13,8 @@ import { FormHelperText } from "@mui/material";
 import Select from "@mui/material/Select";
 import "./TaskModal.css";
 import { priorities } from "../../Models/priorities";
+import { createTask, editTask } from "../../api/api";
+import { getPriorityId, getPriority } from "../../utils/utils";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -23,7 +25,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export const TaskModal = ({ isOpen, setIsOpen, edit, task }) => {
+export const TaskModal = ({
+  isOpen,
+  handleModalClose,
+  edit,
+  task,
+  project,
+}) => {
   const [taskName, setTaskName] = React.useState();
   const [taskNameValid, setTaskNameValid] = React.useState(false);
   const [description, setDescription] = React.useState();
@@ -31,6 +39,7 @@ export const TaskModal = ({ isOpen, setIsOpen, edit, task }) => {
   const [priority, setPriority] = React.useState("Medium");
   const [priorityValid, setPriorityValid] = React.useState(false);
   const [errorChecking, setErrorChecking] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     if (edit && task) {
@@ -45,7 +54,7 @@ export const TaskModal = ({ isOpen, setIsOpen, edit, task }) => {
     setDescriptionValid(false);
     setPriority(false);
     setErrorChecking(false);
-    setIsOpen(false);
+    handleModalClose();
   };
 
   const handleTaskNameChange = (val) => {
@@ -72,14 +81,40 @@ export const TaskModal = ({ isOpen, setIsOpen, edit, task }) => {
     setPriorityValid(!!priority);
   }, [priority]);
 
-  const saveTask = () => {
+  const handleButtonClick = async () => {
     setErrorChecking(true);
+    setLoading(true);
     if (taskNameValid && descriptionValid && priorityValid) {
-      //TODO: API CALL to save new task or edit existing one
-      console.log(taskNameValid, description, priority);
-      handleClose();
+      const priorityId = getPriorityId(priority);
+      try {
+        if (edit) {
+          await editTask(
+            task?.taskId,
+            task.projectId,
+            taskName,
+            description,
+            priorityId
+          );
+        } else {
+          await createTask(
+            project?.projectId,
+            taskName,
+            description,
+            priorityId
+          );
+        }
+      } catch (error) {
+        console.error("Error creating project", error);
+      } finally {
+        setLoading(false);
+        handleClose();
+      }
     }
   };
+
+  if (edit) {
+    setPriority(getPriority(task?.priority));
+  }
 
   return (
     <BootstrapDialog onClose={handleClose} open={isOpen}>
@@ -104,6 +139,7 @@ export const TaskModal = ({ isOpen, setIsOpen, edit, task }) => {
             label="Task name"
             variant="outlined"
             value={taskName}
+            disabled={loading}
             fullWidth
             error={errorChecking && !taskNameValid}
             helperText={"Enter a task name"}
@@ -113,6 +149,7 @@ export const TaskModal = ({ isOpen, setIsOpen, edit, task }) => {
             label="Description"
             variant="outlined"
             value={description}
+            disabled={loading}
             fullWidth
             multiline
             error={errorChecking && !descriptionValid}
@@ -123,6 +160,7 @@ export const TaskModal = ({ isOpen, setIsOpen, edit, task }) => {
             value={priority}
             label="Priority"
             onChange={handlePriorityChange}
+            disabled={loading}
             error={errorChecking && !priorityValid}
             helperText={"Select a priority"}
             fullWidth
@@ -139,7 +177,12 @@ export const TaskModal = ({ isOpen, setIsOpen, edit, task }) => {
         </form>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={saveTask} className="customButton">
+        <Button
+          autoFocus
+          onClick={handleButtonClick}
+          disabled={loading}
+          className="customButton"
+        >
           {!edit ? "Create task" : "Edit task"}
         </Button>
       </DialogActions>

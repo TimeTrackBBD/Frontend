@@ -18,7 +18,14 @@ export const LoginPage = () => {
     <Box className="login-page-container">
       <AppBar position="static" className="appBar">
         <Toolbar>
-          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <PendingActionsIcon className="pendingActionsIcon" />
             <Typography
               variant="h4"

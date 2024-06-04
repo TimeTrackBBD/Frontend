@@ -6,7 +6,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import "./TimerPage.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { formatTime } from "../../utils/formatTime";
+import { formatTime } from "../../utils/utils";
+import { editTask } from "../../api/api";
 
 export const TimerPage = () => {
   const navigate = useNavigate();
@@ -40,9 +41,19 @@ export const TimerPage = () => {
     setIsRunning(true);
   };
 
-  const handleReset = () => {
-    setIsRunning(false);
-    setTime(0);
+  const updateTask = async () => {
+    try {
+      await editTask(
+        task?.taskId,
+        task?.projectId,
+        task?.taskName,
+        task?.description,
+        task?.priorityId,
+        time
+      );
+    } catch (error) {
+      console.error("Error updating task:", error);
+    }
   };
 
   return (
@@ -51,6 +62,7 @@ export const TimerPage = () => {
         <Toolbar>
           <Button
             onClick={() => {
+              updateTask();
               navigate("/home");
             }}
             startIcon={<ArrowBackIcon />}
@@ -79,6 +91,7 @@ export const TimerPage = () => {
           <Button
             variant="contained"
             onClick={() => {
+              updateTask();
               navigate("/home");
             }}
             startIcon={<LogoutIcon />}
@@ -121,13 +134,9 @@ export const TimerPage = () => {
           </Button>
           <Button
             variant="contained"
-            className="resetButton"
-            onClick={handleReset}
-            style={{ margin: "0 1.5rem" }}
+            className="saveButton"
+            onClick={updateTask}
           >
-            Reset
-          </Button>
-          <Button variant="contained" className="saveButton" onClick={() => {}}>
             Save
           </Button>
         </Grid>
