@@ -14,6 +14,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Populate config
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.3
+        with:
+          name: "config.json"
+          json: ${{ secrets.FE_CONFIG }}
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
