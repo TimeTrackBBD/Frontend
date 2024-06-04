@@ -25,13 +25,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export const TaskModal = ({
-  isOpen,
-  handleModalClose,
-  edit,
-  task,
-  project,
-}) => {
+export const TaskModal = ({ isOpen, handleModalClose, task, project }) => {
   const [taskName, setTaskName] = React.useState();
   const [taskNameValid, setTaskNameValid] = React.useState(false);
   const [description, setDescription] = React.useState();
@@ -42,12 +36,12 @@ export const TaskModal = ({
   const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
-    if (edit && task) {
+    if (task) {
       setTaskName(task.taskName);
       setDescription(task.description);
-      setPriority(task.priority);
+      setPriority(getPriority(task?.priority));
     }
-  }, [edit, task]);
+  }, [task]);
 
   const handleClose = () => {
     setTaskNameValid(false);
@@ -87,13 +81,14 @@ export const TaskModal = ({
     if (taskNameValid && descriptionValid && priorityValid) {
       const priorityId = getPriorityId(priority);
       try {
-        if (edit) {
+        if (task) {
           await editTask(
             task?.taskId,
-            task.projectId,
+            task?.projectId,
             taskName,
             description,
-            priorityId
+            priorityId,
+            task?.duration
           );
         } else {
           await createTask(
@@ -112,14 +107,10 @@ export const TaskModal = ({
     }
   };
 
-  if (edit) {
-    setPriority(getPriority(task?.priority));
-  }
-
   return (
     <BootstrapDialog onClose={handleClose} open={isOpen}>
       <DialogTitle sx={{ m: 0, p: 2 }}>
-        {!edit ? "Create new task" : "Edit task"}
+        {!task ? "Create new task" : "Edit task"}
       </DialogTitle>
       <IconButton
         aria-label="close"
@@ -183,7 +174,7 @@ export const TaskModal = ({
           disabled={loading}
           className="customButton"
         >
-          {!edit ? "Create task" : "Edit task"}
+          {!task ? "Create task" : "Edit task"}
         </Button>
       </DialogActions>
     </BootstrapDialog>
