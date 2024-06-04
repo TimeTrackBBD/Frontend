@@ -1,7 +1,9 @@
 const axios = require("axios");
 
-const baseUrl =
-  "http://timetrackapi-env.eba-phmxpr3m.eu-west-1.elasticbeanstalk.com/api/";
+const baseUrl = "https://localhost:7092/api/";
+//TODO: Swap to the HTTPS api. url
+// const baseUrl =
+//   "https://timetrackapi-env.eba-phmxpr3m.eu-west-1.elasticbeanstalk.com/api/";
 
 export const getUser = async (userId) => {
   const endpoint = `user/${userId}`;

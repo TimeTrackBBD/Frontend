@@ -18,7 +18,7 @@ export const TimerPage = () => {
   const location = useLocation();
   const task = location?.state?.task;
 
-  const [time, setTime] = useState(task.duration);
+  const [time, setTime] = useState(task?.duration);
   const [isRunning, setIsRunning] = useState(false);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
