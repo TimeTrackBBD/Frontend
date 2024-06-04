@@ -12,6 +12,11 @@ import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { Paper } from "@mui/material";
 import { TaskModal } from "../../Components/TaskModal/TaskModal";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 export const TimerPage = () => {
   const navigate = useNavigate();
@@ -20,6 +25,9 @@ export const TimerPage = () => {
 
   const [time, setTime] = useState(task?.duration);
   const [isRunning, setIsRunning] = useState(false);
+  const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
+  const [isLeaveDialogOpen, setIsLeaveDialogOpen] = useState(false);
+  const [dialogueText, setDialogueText] = useState("");
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
   useEffect(() => {
@@ -58,8 +66,11 @@ export const TimerPage = () => {
         task?.priorityId,
         time
       );
+      setDialogueText("Your time has been captured!");
     } catch (error) {
-      console.error("Error updating task:", error);
+      setDialogueText("Time could not be captured!");
+    } finally {
+      setIsSaveDialogOpen(true);
     }
   };
 
@@ -69,8 +80,12 @@ export const TimerPage = () => {
         <Toolbar>
           <Button
             onClick={async () => {
-              await updateTask();
-              navigate("/home");
+              if (isRunning) {
+                setIsLeaveDialogOpen(true);
+              } else {
+                await updateTask();
+                navigate("/home");
+              }
             }}
             startIcon={<ArrowBackIcon />}
             className="customButton"
@@ -98,9 +113,12 @@ export const TimerPage = () => {
           <Button
             variant="contained"
             onClick={async () => {
-              await updateTask();
-              sessionStorage.clear();
-              navigate("/");
+              if (isRunning) {
+                setIsLeaveDialogOpen(true);
+              } else {
+                sessionStorage.clear();
+                navigate("/");
+              }
             }}
             startIcon={<LogoutIcon />}
             className="customButton"
@@ -177,6 +195,44 @@ export const TimerPage = () => {
         handleModalClose={handleTaskModalClose}
         task={task}
       /> */}
+      <Dialog open={isSaveDialogOpen} type>
+        <DialogTitle id="alert-dialog-title">
+          {dialogueText == "Your time has been captured!" ? "Saved" : "Error"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{dialogueText}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            color="primary"
+            autoFocus
+            onClick={() => {
+              setIsSaveDialogOpen(false);
+            }}
+          >
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={isLeaveDialogOpen} type>
+        <DialogTitle id="alert-dialog-title">{"Alert!"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {"Please stop your timer before leaving!"}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            color="primary"
+            autoFocus
+            onClick={() => {
+              setIsLeaveDialogOpen(false);
+            }}
+          >
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
