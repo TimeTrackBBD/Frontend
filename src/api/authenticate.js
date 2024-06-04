@@ -17,8 +17,7 @@ export const isAuthenticated = async () => {
 
 }
 
-export const setAccessToken = async (code) => {
-
+export const setAccessToken = async (code, navigate) => {
   if (!await isAuthenticated() && code) {
     let response = await fetch(`${config.API_endpoint}Auth`, {
       method: "POST",
@@ -29,14 +28,14 @@ export const setAccessToken = async (code) => {
         "Content-type": "application/json; charset=UTF-8",
       }
     });
-    if (response){
+    if (response.ok){
         let body = await response.json();
         sessionStorage.setItem('accessToken', body['access_token']);
-        navigate('');
+        navigate('/home');
     }
   } else{
   console.log('failed to set access token');
-  navigate('login') ;
+  navigate('') ;
   }
 }
 

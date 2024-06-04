@@ -8,7 +8,7 @@ export const getUser = async (userId) => {
   const url = `${baseUrl}${endpoint}`;
 
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(url, { headers: {"Authorization" : `Bearer ${sessionStorage.getItem("accessToken")}`} });
   } catch (error) {
     console.error(`Error fetching user data: ${error}`);
   }
@@ -19,7 +19,7 @@ export const getProjectsByUserId = async (userId) => {
   const url = `${baseUrl}${endpoint}`;
 
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(url, { headers: {"Authorization" : `Bearer ${sessionStorage.getItem("accessToken")}`} });
     return response.data;
   } catch (error) {
     console.error(`Error fetching data: ${error}`);
@@ -31,7 +31,7 @@ export const getTasksByProjectId = async (projectId) => {
   const url = `${baseUrl}${endpoint}`;
 
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(url, { headers: {"Authorization" : `Bearer ${sessionStorage.getItem("accessToken")}`} });
     return response.data;
   } catch (error) {
     console.error(`Error fetching data: ${error}`);
@@ -48,6 +48,7 @@ export const createProject = async (
 
   try {
     const response = await axios.post(url, {
+      headers: {"Authorization" : `Bearer ${sessionStorage.getItem("accessToken")}`},
       userId: userId,
       projectName: projectName,
       description: projectDescription,
@@ -72,6 +73,7 @@ export const editProject = async (
 
   try {
     const response = await axios.put(url, {
+      headers: {"Authorization" : `Bearer ${sessionStorage.getItem("accessToken")}`},
       projectId: projectId,
       userId: userId,
       projectName: projectName,
@@ -97,6 +99,7 @@ export const createTask = async (
 
   try {
     const response = await axios.post(url, {
+      headers: {"Authorization" : `Bearer ${sessionStorage.getItem("accessToken")}`},
       projectId: projectId,
       taskName: taskName,
       description: taskDescription,
@@ -125,6 +128,7 @@ export const editTask = async (
 
   try {
     const response = await axios.put(url, {
+      headers: {"Authorization" : `Bearer ${sessionStorage.getItem("accessToken")}`},
       taskId: taskId,
       projectId: projectId,
       taskName: taskName,

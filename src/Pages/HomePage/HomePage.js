@@ -127,7 +127,8 @@ export const HomePage = () => {
           <Button
             variant="contained"
             onClick={() => {
-              navigate("/home");
+              sessionStorage.clear();
+              navigate("/");
             }}
             startIcon={<LogoutIcon />}
             className="customButton"

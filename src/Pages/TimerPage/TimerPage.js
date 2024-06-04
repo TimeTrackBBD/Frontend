@@ -92,7 +92,8 @@ export const TimerPage = () => {
             variant="contained"
             onClick={() => {
               updateTask();
-              navigate("/home");
+              sessionStorage.clear();
+              navigate("/");
             }}
             startIcon={<LogoutIcon />}
             className="customButton"

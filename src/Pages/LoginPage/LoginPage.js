@@ -23,8 +23,7 @@ const validateUser = async () =>{
   if (queryString && !authenticated ) {
     const params = new URLSearchParams(queryString);
     let code = params.get('code')
-    await setAccessToken(code);
-    navigate('/home')
+    await setAccessToken(code, navigate);
   }
 }
 
