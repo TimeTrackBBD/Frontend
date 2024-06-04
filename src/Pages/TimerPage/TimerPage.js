@@ -8,20 +8,19 @@ import "./TimerPage.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { formatTime } from "../../utils/utils";
 import { editTask } from "../../api/api";
+import { IconButton } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import { Paper } from "@mui/material";
+import { TaskModal } from "../../Components/TaskModal/TaskModal";
 
 export const TimerPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const task = location.state
-    ? location.state.task
-    : {
-        taskName: "Sample Task",
-        description: "Sample Description",
-        duration: 0,
-      };
+  const task = location?.state?.task;
 
-  const [time, setTime] = useState(task.duration);
+  const [time, setTime] = useState(task?.duration);
   const [isRunning, setIsRunning] = useState(false);
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
   useEffect(() => {
     let timer;
@@ -40,6 +39,14 @@ export const TimerPage = () => {
   const handleStart = () => {
     setIsRunning(true);
   };
+
+  // const handleTaskModalOpen = () => {
+  //   setIsTaskModalOpen(true);
+  // };
+
+  // const handleTaskModalClose = () => {
+  //   setIsTaskModalOpen(false);
+  // };
 
   const updateTask = async () => {
     try {
@@ -61,8 +68,8 @@ export const TimerPage = () => {
       <AppBar position="static" className="appBar">
         <Toolbar>
           <Button
-            onClick={() => {
-              updateTask();
+            onClick={async () => {
+              await updateTask();
               navigate("/home");
             }}
             startIcon={<ArrowBackIcon />}
@@ -90,8 +97,8 @@ export const TimerPage = () => {
           </Box>
           <Button
             variant="contained"
-            onClick={() => {
-              updateTask();
+            onClick={async () => {
+              await updateTask();
               sessionStorage.clear();
               navigate("/");
             }}
@@ -111,9 +118,32 @@ export const TimerPage = () => {
         className="content-container"
       >
         <Grid item>
-          <Typography variant="h2" className="task-name">
-            {task.taskName}
-          </Typography>
+          <Paper
+            elevation={0}
+            style={{ display: "flex", flexDirection: "row" }}
+          >
+            <Typography variant="h2" className="task-name">
+              {task.taskName}
+            </Typography>
+            {/* TODO: Edit Task, issue with getting the screen to update from the modal */}
+            {/* <IconButton
+              sx={{
+                color: "black",
+                cursor: "pointer",
+              }}
+              onClick={() => handleTaskModalOpen()}
+              color="primary"
+              aria-label="edit"
+            >
+              <EditIcon
+                sx={{
+                  paddingLeft: "0.5rem",
+                  fontSize: "2.5rem",
+                }}
+              />
+            </IconButton> */}
+          </Paper>
+
           <Typography variant="body1" className="task-description">
             {task.description}
           </Typography>
@@ -142,6 +172,11 @@ export const TimerPage = () => {
           </Button>
         </Grid>
       </Grid>
+      {/* <TaskModal
+        isOpen={isTaskModalOpen}
+        handleModalClose={handleTaskModalClose}
+        task={task}
+      /> */}
     </Box>
   );
 };

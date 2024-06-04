@@ -37,7 +37,6 @@ export const HomePage = () => {
 
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
-  const [isTaskModalEditOpen, setIsTaskModalEditOpen] = useState(false);
   const [isEditProject, setIsEditProject] = useState(false);
   const [projectToEdit, setProjectToEdit] = useState();
   const [projects, setProjects] = useState([]);
@@ -97,16 +96,6 @@ export const HomePage = () => {
     <Box className="home-page-container">
       <AppBar position="static" className="appBar">
         <Toolbar>
-          <Button
-            onClick={() => {
-              navigate("/home");
-            }}
-            startIcon={<ArrowBackIcon />}
-            className="customButton"
-            size="medium"
-          >
-            Back
-          </Button>
           <Box
             sx={{
               flexGrow: 1,
