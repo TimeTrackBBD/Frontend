@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const baseUrl = "http://localhost:7092/api/";
+const baseUrl = "https://localhost:7092/api/";
 
 export const getUser = async (userId) => {
   const endpoint = `user/${userId}`;
