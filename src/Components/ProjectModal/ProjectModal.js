@@ -48,24 +48,30 @@ export const ProjectModal = ({
 
   const handleClose = () => {
     if (!isError) {
-      setProjects((prevProjects) =>
-        prevProjects.map((proj) =>
-          proj.projectId === project?.projectId
-            ? {
-                ...proj,
-                projectName: projectName,
-                description: description,
-              }
-            : proj
-        )
-      );
+      if (edit) {
+        setProjects((prevProjects) =>
+          prevProjects.map((proj) =>
+            proj.projectId === project?.projectId
+              ? {
+                  ...proj,
+                  projectName: projectName,
+                  description: description,
+                }
+              : proj
+          )
+        );
+      }
     }
     setProjectNameValid(false);
     setDescriptionValid(false);
     setProjectName("");
     setDescription("");
     setErrorChecking(false);
-    handleModalClose();
+    if (edit) {
+      setIsModalOpen(false);
+    } else {
+      handleModalClose();
+    }
   };
 
   const handleProjectNameChange = (val) => {

@@ -50,6 +50,8 @@ export const HomePage = () => {
 
   const handleProjectModalClose = () => {
     setIsProjectModalOpen(false);
+    setProjects([]);
+    fetchProjects();
   };
 
   const handleTaskModalOpen = (project) => {
