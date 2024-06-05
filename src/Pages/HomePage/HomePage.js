@@ -20,7 +20,7 @@ import { ProjectModal } from "../../Components/ProjectModal/ProjectModal";
 import { TaskModal } from "../../Components/TaskModal/TaskModal";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { getProjectsByUserId, getTasksByProjectId } from "../../api/api";
+import { getProjects, getTasksByProjectId } from "../../api/api";
 import { TaskCard } from "../../Components/TaskCard/TaskCard";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -77,9 +77,9 @@ export const HomePage = () => {
   const fetchProjects = async () => {
     try {
       setLoading(true);
-      const response = await getProjectsByUserId(1);
+      const response = await getProjects();
       let project = {};
-      for (let i = 1; i < response.length; i++) {
+      for (let i = 0; i < response.length; i++) {
         project = response[i];
         let tasks = await fetchTasks(project["projectId"]);
         project["tasks"] = tasks;
