@@ -1,7 +1,7 @@
 /* TimerPage.css */
 
 .appBar.MuiAppBar-root {
-  background-color: black;
+  background: linear-gradient(to right, #d4eefc, #01013e);
   position: fixed;
   top: 0;
   width: 100%;
@@ -11,109 +11,161 @@
 .timeTrackHeading {
   color: white;
   font-family: "Arial", sans-serif;
-  font-size: 2rem;
-  font-weight: italic;
+  font-size: 2.5rem;
+  font-weight: bolder;
   text-transform: lowercase;
   font-variant: small-caps;
-  display: flex;
-  align-items: center;
 }
 
 .pendingActionsIcon {
   color: white;
   font-size: 2rem;
-  margin-right: 8px;
+  margin-right: 0.5rem;
 }
 
-.customButton {
-  background-color: black !important;
-  color: white !important;
+.LogoutButton {
+  background-color: #87CEFA !important;
+  color: #01013e !important;
   font-family: "Arial", sans-serif;
   font-weight: bold;
   text-transform: lowercase;
   font-variant: small-caps;
-  padding: 8px 16px;
-  font-size: 1rem;
-  border: 2px solid white !important;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  border: 0.125rem solid #01013e !important;
   transition: background-color 0.3s ease;
 }
 
-.customButton:hover {
-  background-color: #555 !important;
+.LogoutButton:hover {
+  background-color: #5EB8FF !important;
+}
+
+.BackButton {
+  background-color: #87CEFA !important;
+  color: #01013e !important;
+  font-family: "Arial", sans-serif;
+  font-weight: bold;
+  text-transform: lowercase;
+  font-variant: small-caps;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  border: 0.125rem solid #01013e !important;
+  transition: background-color 0.3s ease;
+}
+
+.BackButton:hover {
+  background-color: #5EB8FF !important;
 }
 
 .timer-page-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 10%;
-  background-image: linear-gradient(black, white, black);
-  min-height: 100vh;
-}
-.startButton {
-  background-color: #65c465 !important;
-  color: white !important;
-  border: 2px solid black !important;
-}
-
-.pauseButton {
-  background-color: #fc2b2b !important;
-  color: white !important;
-  border: 2px solid black !important;
-}
-
-.saveButton {
-  background-color: #42a8dc !important;
-  color: white !important;
-  border: 2px solid black !important;
-}
-
-.timer-page-container {
-  background: linear-gradient(135deg, #ece9e6, #ffffff);
-  height: 100vh;
-  padding-top: 64px; /* Adjust for AppBar height */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  padding-top: 14%;
+  height: 100%;
+  overflow: hidden; /* Prevent double scroll */
+  box-sizing: border-box;
+  background-image: linear-gradient(white, #d4eefc);
+  border: 0.125rem solid #01013e !important;
 }
 
 .content-container {
-  max-width: 600px;
+  max-width: 90%;
   width: 100%;
   padding: 20px;
   background: white;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+.startButton {
+  background-color: #6cff56 !important;
+  color: #01013e !important;
+  font-family: "Arial", sans-serif;
+  font-weight: bold;
+  text-transform: lowercase;
+  font-variant: small-caps;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  border: 0.125rem solid #01013e !important;
+  transition: background-color 0.3s ease;
+}
+
+.startButton:hover {
+  background-color: #98ff88 !important;
+}
+.saveButton {
+  background-color: #e76bfa !important;
+  color: #01013e !important;
+  font-family: "Arial", sans-serif;
+  font-weight: bold;
+  text-transform: lowercase;
+  font-variant: small-caps;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  border: 0.125rem solid #01013e !important;
+  transition: background-color 0.3s ease;
+}
+
+.saveButton:hover {
+  background-color: #ff9ef9 !important;
+}
 .task-name {
   font-family: "Arial", sans-serif;
   font-size: 2.5rem;
   font-weight: bold;
-  color: black;
+  color: #01013e;
   margin-bottom: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .task-description {
   font-family: "Arial", sans-serif;
   font-size: 1.2rem;
-  color: grey;
+  color: #01013e;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .timer-display {
-  border: 0.25rem solid #333;
+  border: 0.25rem solid #01013e;
   padding: 1.5rem;
   border-radius: 0.5rem;
   display: inline-block;
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-  background: #f7f7f7;
+  background: #f5f5f5;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .timer-text {
   font-family: "Arial", sans-serif;
   font-size: 3rem;
   font-weight: bold;
-  color: #333;
+  color: #01013e;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .timer-text {
+    font-size: 2rem;
+  }
+  .startButton, .saveButton {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
 }

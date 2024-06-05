@@ -1,7 +1,7 @@
 /* LoginPage.css */
 
 body {
-  background: linear-gradient(130deg, #ffffff); /* Gradient from white to gray */
+  background: linear-gradient(white, #d4eefc); /* Updated gradient to match home page */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -12,7 +12,7 @@ body {
 }
 
 .appBar.MuiAppBar-root {
-  background-color: black;
+  background: linear-gradient(to right, #d4eefc, #01013e); /* Updated to match home page */
   position: fixed;
   top: 0;
   width: 100%;
@@ -22,8 +22,8 @@ body {
 .timeTrackHeading {
   color: white;
   font-family: "Arial", sans-serif;
-  font-size: 2rem;
-  font-weight: italic;
+  font-size: 2.5rem; /* Matching home page */
+  font-weight: bolder; /* Increased weight */
   text-transform: lowercase;
   font-variant: small-caps;
   display: flex;
@@ -33,33 +33,35 @@ body {
 .pendingActionsIcon {
   color: white;
   font-size: 2rem;
-  margin-right: 8px;
+  margin-right: 0.5rem;
 }
 
-.customButton {
-  background-color: black !important;
-  color: white !important;
+.logIn-Button {
+  background-color: #87CEFA !important; /* Light blue shade to match home page */
+  color: #01013e !important;
   font-family: "Arial", sans-serif;
   font-weight: bold;
   text-transform: lowercase;
   font-variant: small-caps;
-  padding: 8px 16px;
-  font-size: 1rem;
-  border: 2px solid white !important;
+  padding: 10px 20px; /* Slightly larger padding to match home page */
+  font-size: 2.1rem; /* Slightly larger font size */
+  border: 0.125rem solid #01013e !important;
   transition: background-color 0.3s ease;
 }
 
 .customButton:hover {
-  background-color: #555 !important;
+  background-color: #5EB8FF !important; /* Slightly darker light blue for hover */
 }
 
 .login-page-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 10%;
-  min-height: 100vh;
-  background-image: linear-gradient(black, white, rgb(1, 25, 205));
+  padding-top: 64px; /* Adjusted to match the height of the AppBar */
+  height: 100%;
+  overflow: hidden; /* Prevent double scroll */
+  box-sizing: border-box;
+  background-image: linear-gradient(white, #d4eefc); /* Updated gradient to match home page */
 }
 
 .modal-content {
@@ -67,15 +69,24 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 500px;
+  width: 40%;
+  height: 30%;
   padding: 40px;
-  box-shadow: 24;
+  box-shadow: 0px 4px 0.5rem rgba(0, 0, 0, 0.1); /* Softer shadow to match home page */
   background-color: white;
-  border-radius: 8px;
+  border-radius: 10px;
   outline: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+.modal-content .MuiTypography-root {
+  color: #01013e !important; /* Ensure dark blue text */
+  font-family: "Arial", sans-serif;
+  font-weight: bold;
+  text-transform: lowercase;
+  font-variant: small-caps;
 }

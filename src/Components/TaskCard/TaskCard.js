@@ -29,7 +29,7 @@ export const TaskCard = ({ task }) => {
     <>
       <Paper key={task?.taskId} className="task-card">
         <Box sx={{ display: "flex", flexDirection: "row" }}>
-          <Typography variant="h6" fontWeight={700} className="task-card-title">
+          <Typography variant="h6" fontWeight={700} className="task-card-title" alignContent="center">
             {task.taskName}
           </Typography>
         </Box>
