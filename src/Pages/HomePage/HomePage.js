@@ -50,8 +50,6 @@ export const HomePage = () => {
 
   const handleProjectModalClose = () => {
     setIsProjectModalOpen(false);
-    setProjects([]);
-    fetchProjects();
   };
 
   const handleTaskModalOpen = (project) => {
@@ -255,6 +253,8 @@ export const HomePage = () => {
             isOpen={isProjectModalOpen}
             handleModalClose={handleProjectModalClose}
             setIsModalOpen={setIsProjectModalOpen}
+            setProjects={setProjects}
+            projects={projects}
             edit={isEditProject}
             project={projectToEdit}
           />

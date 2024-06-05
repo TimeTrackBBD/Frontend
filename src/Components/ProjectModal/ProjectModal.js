@@ -25,6 +25,8 @@ export const ProjectModal = ({
   isOpen,
   handleModalClose,
   setIsModalOpen,
+  setProjects,
+  projects,
   edit,
   project,
 }) => {
@@ -45,6 +47,19 @@ export const ProjectModal = ({
   }, [edit, project]);
 
   const handleClose = () => {
+    if (!isError) {
+      setProjects((prevProjects) =>
+        prevProjects.map((proj) =>
+          proj.projectId === project?.projectId
+            ? {
+                ...proj,
+                projectName: projectName,
+                description: description,
+              }
+            : proj
+        )
+      );
+    }
     setProjectNameValid(false);
     setDescriptionValid(false);
     setProjectName("");
