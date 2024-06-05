@@ -1,37 +1,55 @@
+# TimeTrack
 
-## Available Scripts
+TimeTrack is a web application that allows users to create projects and track the time they spend working on tasks for each project. This tool is designed to help users manage their time efficiently and keep track of their productivity.
 
-In the project directory, you can run:
+Access TimeTrack online: [TimeTrack](https://timetrack.projects.bbdgrad.com/)
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **User Authentication:** Secure login and user management.
+- **Project Management:** Create and manage multiple projects.
+- **Task Tracking:** Track time spent on various tasks within each project.
+- **Task Prioritization:** Easily set the priority level of the different tasks.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Libraries and Frameworks
 
-### `npm test`
+TimeTrack is built using the following key libraries and frameworks:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **React:** A JavaScript library for building user interfaces.
+- **Material-UI (MUI):** A popular React UI framework.
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To run TimeTrack locally, follow these steps:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Ensure you have the following installed on your machine:
 
-### `npm run eject`
+- Node.js
+- npm (Node Package Manager)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Configuration
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Create a `config.json` file in the root directory of the project with the following fields:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```json
+{
+  "redirect_uri": "",
+  "client_id": "",
+  "API_endpoint": "",
+  "Cognito_endpoint": ""
+}
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Run the code
+
+- Run the command `npm i` to install the required packages.
+- Run the command `npm run dev` to launch the application.
+- The website should launch in your browser at the url: `http://localhost:8080`
+
+### Deployment
+
+- The website can be deployed with the `deploy-website` workflow.
+- This will build the package and upload it to the elastic beanstalk instance.
+- The workflow will run on merge into main, or can be triggered manually.
