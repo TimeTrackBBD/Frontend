@@ -1,17 +1,12 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import { AppBar, Box, Toolbar, Typography, Button, Grid } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { AppBar, Box, Toolbar, Typography, Button, Grid, Paper } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
-import "./TimerPage.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { formatTime } from "../../utils/utils";
 import { editTask } from "../../api/api";
-import { IconButton } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import { Paper } from "@mui/material";
-import { TaskModal } from "../../Components/TaskModal/TaskModal";
+import "./TimerPage.css";
 
 export const TimerPage = () => {
   const navigate = useNavigate();
@@ -20,7 +15,6 @@ export const TimerPage = () => {
 
   const [time, setTime] = useState(task?.duration);
   const [isRunning, setIsRunning] = useState(false);
-  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
   useEffect(() => {
     let timer;
@@ -39,14 +33,6 @@ export const TimerPage = () => {
   const handleStart = () => {
     setIsRunning(true);
   };
-
-  // const handleTaskModalOpen = () => {
-  //   setIsTaskModalOpen(true);
-  // };
-
-  // const handleTaskModalClose = () => {
-  //   setIsTaskModalOpen(false);
-  // };
 
   const updateTask = async () => {
     try {
@@ -73,7 +59,7 @@ export const TimerPage = () => {
               navigate("/home");
             }}
             startIcon={<ArrowBackIcon />}
-            className="customButton"
+            className="BackButton"
             size="medium"
           >
             Back
@@ -103,7 +89,7 @@ export const TimerPage = () => {
               navigate("/");
             }}
             startIcon={<LogoutIcon />}
-            className="customButton"
+            className="LogoutButton"
             size="medium"
           >
             Log Out
@@ -120,30 +106,12 @@ export const TimerPage = () => {
         <Grid item>
           <Paper
             elevation={0}
-            style={{ display: "flex", flexDirection: "row" }}
+            sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
           >
-            <Typography variant="h2" className="task-name">
+            <Typography variant="h2" className="task-name" align="center">
               {task.taskName}
             </Typography>
-            {/* TODO: Edit Task, issue with getting the screen to update from the modal */}
-            {/* <IconButton
-              sx={{
-                color: "black",
-                cursor: "pointer",
-              }}
-              onClick={() => handleTaskModalOpen()}
-              color="primary"
-              aria-label="edit"
-            >
-              <EditIcon
-                sx={{
-                  paddingLeft: "0.5rem",
-                  fontSize: "2.5rem",
-                }}
-              />
-            </IconButton> */}
           </Paper>
-
           <Typography variant="body1" className="task-description">
             {task.description}
           </Typography>
@@ -155,28 +123,31 @@ export const TimerPage = () => {
             </Typography>
           </Box>
         </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            className={`startButton ${isRunning ? "pauseButton" : ""}`}
-            onClick={isRunning ? handlePause : handleStart}
-          >
-            {isRunning ? "Pause" : "Start"}
-          </Button>
-          <Button
-            variant="contained"
-            className="saveButton"
-            onClick={updateTask}
-          >
-            Save
-          </Button>
+        <Grid item container justifyContent="center" spacing={2}>
+          <Grid item>
+            <Button
+              onClick={handleStart}
+              className="startButton"
+              size="large"
+              disabled={isRunning}
+            >
+              Start
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              onClick={async () => {
+                handlePause();
+                await updateTask();
+              }}
+              className="saveButton"
+              size="large"
+            >
+              Save
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
-      {/* <TaskModal
-        isOpen={isTaskModalOpen}
-        handleModalClose={handleTaskModalClose}
-        task={task}
-      /> */}
     </Box>
   );
 };

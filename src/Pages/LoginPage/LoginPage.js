@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import GitHubIcon from "@mui/icons-material/GitHub";
+import LoginIcon from '@mui/icons-material/Login';
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import Modal from "@mui/material/Modal";
 import Paper from "@mui/material/Paper";
@@ -59,8 +59,8 @@ export const LoginPage = () => {
         aria-describedby="welcome-modal-description"
       >
         <Paper className="modal-content">
-          <Typography id="welcome-modal-title" variant="h5" component="h2">
-            Welcome to Timetrack
+          <Typography id="welcome-modal-title" variant="h3" component="h2">
+            Welcome to Timetrack!
           </Typography>
           <Typography id="welcome-modal-description" sx={{ mt: 2 }}>
             Please log in to continue to your dashboard.
@@ -70,9 +70,9 @@ export const LoginPage = () => {
             onClick={() => {
               window.location.href=`https://time-track.auth.eu-west-1.amazoncognito.com/login?response_type=code&client_id=${config.client_id}&scope=openid%20email&redirect_uri=${encodeURIComponent(config.redirect_uri)}`;
             }}
-            startIcon={<GitHubIcon />}
-            className="customButton"
-            size="medium"
+            startIcon={<LoginIcon />}
+            className="logIn-Button"
+            size="Large"
             sx={{ mt: 3 }}
           >
             Log In

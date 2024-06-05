@@ -10,9 +10,9 @@ import {
   AccordionDetails,
   AccordionSummary,
 } from "@mui/material";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import LogoutIcon from "@mui/icons-material/Logout";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import { formatTimeWithUnits } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +23,7 @@ import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { getProjectsByUserId, getTasksByProjectId } from "../../api/api";
 import { TaskCard } from "../../Components/TaskCard/TaskCard";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const getTotalTime = (project) => {
   let totalTime = project.tasks.reduce(
@@ -89,13 +90,48 @@ export const HomePage = () => {
   };
 
   useEffect(() => {
-    fetchProjects();
+    // fetchProjects();
+    setProjects([
+      {
+          projectId: 4,
+          userId : 1,
+          projectName : "Lovely stuff123",
+          description: "Beautiful",
+      tasks:[{
+          taskId : 10,
+          projectId: 4,
+          priorityId: 2,
+          taskName: "Test123333",
+          description: "The bets description ever and I hope it breaks my website so much pls wbreak break break break! Lets make this even longer and longer!",
+          duration: 15
+      },
+      {
+          taskId: 11,
+          projectId: 4,
+          priorityId: 1,
+          taskName: "The best one",
+          description: "oh yeee",
+          duration: 45
+      }]
+      }
+  ])
   }, []);
 
   return (
     <Box className="home-page-container">
       <AppBar position="static" className="appBar">
         <Toolbar>
+        <Button
+            onClick={async () => {
+              await updateTask();
+              navigate("/home");
+            }}
+            startIcon={<ArrowBackIcon />}
+            className="BackButton"
+            size="medium"
+          >
+            Back
+          </Button>
           <Box
             sx={{
               flexGrow: 1,
@@ -120,7 +156,7 @@ export const HomePage = () => {
               navigate("/");
             }}
             startIcon={<LogoutIcon />}
-            className="customButton"
+            className="logOut-button"
             size="medium"
           >
             Log Out
@@ -136,7 +172,7 @@ export const HomePage = () => {
           <Button
             style={{ marginLeft: "auto" }}
             variant="contained"
-            color="success"
+            className="create-project-button"
             onClick={() => handleProjectModalOpen(false, null)}
           >
             Create new project
@@ -151,7 +187,7 @@ export const HomePage = () => {
               </Typography>
               <IconButton
                 sx={{
-                  color: "black",
+                  color: "#01013e",
                   padding: 0,
                   cursor: "pointer",
                 }}
@@ -160,6 +196,25 @@ export const HomePage = () => {
                 aria-label="edit"
               >
                 <EditIcon
+                  sx={{
+                    paddingLeft: "0.5rem",
+                    fontSize: "1.3rem",
+                    display: "flex",
+                    justifySelf: "center",
+                  }}
+                />
+              </IconButton>
+              <IconButton
+                sx={{
+                  color: "#01013e",
+                  padding: 0,
+                  cursor: "pointer",
+                }}
+                onClick={() => handleProjectModalOpen(true, project)}
+                color="primary"
+                aria-label="edit"
+              >
+                <DeleteIcon
                   sx={{
                     paddingLeft: "0.5rem",
                     fontSize: "1.3rem",
@@ -187,11 +242,29 @@ export const HomePage = () => {
               <Button
                 className="create-task-button"
                 variant="contained"
-                style={{ marginLeft: "auto" }}
                 onClick={() => handleTaskModalOpen(project)}
               >
                 Create task
               </Button>
+              <IconButton
+                sx={{
+                  color: "#01013e",
+                  padding: 0,
+                  cursor: "pointer",
+                }}
+                onClick={() => handleProjectModalOpen(true, project)}
+                color="primary"
+                aria-label="edit"
+              >
+                <DeleteIcon
+                  sx={{
+                    paddingLeft: "0.5rem",
+                    fontSize: "1.3rem",
+                    display: "flex",
+                    justifySelf: "center",
+                  }}
+                />
+              </IconButton>
               <Paper square elevation={0}>
                 {project?.tasks.map((task) => (
                   //TODO: Allow user to edit task
