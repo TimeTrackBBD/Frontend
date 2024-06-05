@@ -31,6 +31,9 @@ export const LoginPage = () => {
       await setAccessToken(code, navigate);
     }
   }
+  if (authenticated){
+    navigate('/home');
+  }
 
   React.useEffect(() => {
     validateUser();
