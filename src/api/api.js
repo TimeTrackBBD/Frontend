@@ -170,5 +170,42 @@ export const editTask = async (
   }
 };
 
-// Delete project
-// Delete Task
+export const deleteProject = async (projectId) => {
+  const endpoint = `Project/${projectId}`;
+  const url = `${baseUrl}${endpoint}`;
+
+  try {
+    const response = await axios.delete(url, {
+      data: { projectId: projectId },
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+      },
+    });
+
+    return response;
+  } catch (error) {
+    console.error(`Error deleting project: ${error}`);
+    throw error;
+  }
+};
+
+export const deleteTask = async (taskId) => {
+  const endpoint = `tasks/${taskId}`;
+  const url = `${baseUrl}${endpoint}`;
+
+  try {
+    const response = await axios.delete(url, {
+      data: { taskId: taskId },
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+      },
+    });
+
+    return response;
+  } catch (error) {
+    console.error(`Error deleting task: ${error}`);
+    throw error;
+  }
+};
