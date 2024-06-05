@@ -32,6 +32,7 @@ export const TaskModal = ({
   setIsModalOpen,
   task,
   project,
+  setProjects,
 }) => {
   const [taskName, setTaskName] = React.useState();
   const [taskNameValid, setTaskNameValid] = React.useState(false);
@@ -57,6 +58,27 @@ export const TaskModal = ({
     setDescriptionValid(false);
     setPriority(false);
     setErrorChecking(false);
+    if (task) {
+      setProjects((prevProjects) =>
+        prevProjects.map((proj) =>
+          proj.projectId === project?.projectId
+            ? {
+                ...proj,
+                tasks: proj.tasks.map((t) =>
+                  t.taskId === task?.taskId
+                    ? {
+                        ...t,
+                        taskName: taskName,
+                        description: description,
+                        priority: getPriorityId(priority),
+                      }
+                    : t
+                ),
+              }
+            : proj
+        )
+      );
+    }
     handleModalClose();
   };
 

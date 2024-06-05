@@ -25,6 +25,8 @@ export const ProjectModal = ({
   isOpen,
   handleModalClose,
   setIsModalOpen,
+  setProjects,
+  projects,
   edit,
   project,
 }) => {
@@ -45,12 +47,31 @@ export const ProjectModal = ({
   }, [edit, project]);
 
   const handleClose = () => {
+    if (!isError) {
+      if (edit) {
+        setProjects((prevProjects) =>
+          prevProjects.map((proj) =>
+            proj.projectId === project?.projectId
+              ? {
+                  ...proj,
+                  projectName: projectName,
+                  description: description,
+                }
+              : proj
+          )
+        );
+      }
+    }
     setProjectNameValid(false);
     setDescriptionValid(false);
     setProjectName("");
     setDescription("");
     setErrorChecking(false);
-    handleModalClose();
+    if (edit) {
+      setIsModalOpen(false);
+    } else {
+      handleModalClose();
+    }
   };
 
   const handleProjectNameChange = (val) => {

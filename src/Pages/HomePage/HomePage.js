@@ -10,7 +10,6 @@ import {
   AccordionDetails,
   AccordionSummary,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
@@ -21,10 +20,11 @@ import { ProjectModal } from "../../Components/ProjectModal/ProjectModal";
 import { TaskModal } from "../../Components/TaskModal/TaskModal";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { getProjects, getTasksByProjectId } from "../../api/api";
+import { getProjects, getTasksByProjectId, deleteProject } from "../../api/api";
 import { TaskCard } from "../../Components/TaskCard/TaskCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { PopupDialogue } from "../../Components/Dialogue/PopupDialogue";
 
 const getTotalTime = (project) => {
   let totalTime = project.tasks.reduce(
@@ -40,13 +40,20 @@ export const HomePage = () => {
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [isEditProject, setIsEditProject] = useState(false);
-  const [projectToEdit, setProjectToEdit] = useState();
+  const [isDeleteProjectDialogOpen, setIsDeleteProjectDialogOpen] =
+    useState(false);
+  const [isDeleteCompleteDialogOpen, setIsDeleteCompleteDialogOpen] =
+    useState(false);
+  const [isDeleteError, setIsDeleteError] = useState(false);
+  const [isCanNotDeleteDialogOpen, setIsCanNotDeleteDialogOpen] =
+    useState(false);
+  const [activeProject, setActiveProject] = useState();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const handleProjectModalOpen = (edit, project) => {
     setIsEditProject(edit);
-    setProjectToEdit(project ?? null);
+    setActiveProject(project ?? null);
     setIsProjectModalOpen(true);
   };
 
@@ -57,7 +64,7 @@ export const HomePage = () => {
   };
 
   const handleTaskModalOpen = (project) => {
-    setProjectToEdit(project ?? null);
+    setActiveProject(project ?? null);
     setIsTaskModalOpen(true);
   };
 
@@ -200,9 +207,17 @@ export const HomePage = () => {
                       padding: 0,
                       cursor: "pointer",
                     }}
-                    onClick={() => handleProjectModalOpen(true, project)}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      if (project?.tasks?.length > 0) {
+                        setIsCanNotDeleteDialogOpen(true);
+                      } else {
+                        setActiveProject(project);
+                        setIsDeleteProjectDialogOpen(true);
+                      }
+                    }}
                     color="primary"
-                    aria-label="edit"
+                    aria-label="delete"
                   >
                     <DeleteIcon
                       sx={{
@@ -240,7 +255,11 @@ export const HomePage = () => {
                   <Paper square elevation={0}>
                     {!!project?.tasks.length > 0 ? (
                       project?.tasks.map((task) => (
-                        <TaskCard task={task}></TaskCard>
+                        <TaskCard
+                          task={task}
+                          project={project}
+                          setProjects={setProjects}
+                        ></TaskCard>
                       ))
                     ) : (
                       <Typography
@@ -277,15 +296,67 @@ export const HomePage = () => {
             isOpen={isProjectModalOpen}
             handleModalClose={handleProjectModalClose}
             setIsModalOpen={setIsProjectModalOpen}
+            setProjects={setProjects}
+            projects={projects}
             edit={isEditProject}
-            project={projectToEdit}
+            project={activeProject}
           />
           <TaskModal
             isOpen={isTaskModalOpen}
             handleModalClose={handleTaskModalClose}
             setIsModalOpen={setIsTaskModalOpen}
             edit={false}
-            project={projectToEdit}
+            project={activeProject}
+          />
+          <PopupDialogue
+            isOpen={isDeleteProjectDialogOpen}
+            onClick={async () => {
+              const response = await deleteProject(activeProject?.projectId);
+
+              if (response.status == 204) {
+                setIsDeleteError(false);
+                setIsDeleteProjectDialogOpen(false);
+              } else {
+                setIsDeleteError(true);
+                setIsDeleteProjectDialogOpen(false);
+              }
+              setIsDeleteCompleteDialogOpen(true);
+            }}
+            title={"Are you sure?"}
+            content={
+              "Are you sure you want to delete this project? It can not be undone."
+            }
+            primaryButtonText={"Ok"}
+          />
+          <PopupDialogue
+            isOpen={isCanNotDeleteDialogOpen}
+            onClick={() => {
+              setIsCanNotDeleteDialogOpen(false);
+            }}
+            title={"Alert!"}
+            content={"You can only delete a project that has no tasks!"}
+            primaryButtonText={"Ok"}
+          />
+          <PopupDialogue
+            isOpen={isDeleteCompleteDialogOpen}
+            onClick={() => {
+              if (!isDeleteError) {
+                setProjects((prevProjects) =>
+                  prevProjects.filter(
+                    (project) => project.projectId !== activeProject?.projectId
+                  )
+                );
+              }
+              setIsDeleteCompleteDialogOpen(false);
+              setIsDeleteError(false);
+            }}
+            title={isDeleteError ? "Error" : "Success"}
+            content={
+              isDeleteError
+                ? "Failed to delete project. Please try again."
+                : "Project successfully deleted."
+            }
+            primaryButtonText={"Ok"}
           />
         </Box>
       )}
