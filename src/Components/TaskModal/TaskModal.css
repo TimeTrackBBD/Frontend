@@ -1,5 +1,5 @@
 .appBar.MuiAppBar-root {
-  background-color: black;
+  background: linear-gradient(to right, #d4eefc, #01013e);
 }
 
 .timeTrackHeading {
@@ -20,21 +20,22 @@
 }
 
 .customButton {
-  background-color: black !important;
-  color: white !important;
+  background-color: #87CEFA !important;
+  color: #01013e !important;
   font-family: "Arial", sans-serif;
   font-weight: bold;
   text-transform: lowercase;
   font-variant: small-caps;
-  padding: 16px 32px;
-  font-size: 1.5rem;
-  border: 3px solid white !important;
+  padding: 10px 20px; /* Slightly larger padding */
+  font-size: 1.5rem; /* Slightly larger font size */
+  border: 3px solid #01013e !important;
   transition: background-color 0.3s ease;
 }
 
 .customButton:hover {
-  background-color: #555 !important;
+  background-color: #37a8ff !important; /* Slightly darker light blue for hover */
 }
+
 
 .centerButton {
   display: block;
