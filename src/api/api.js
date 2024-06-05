@@ -3,23 +3,16 @@ import config from "../../config.json";
 
 const baseUrl = config.API_endpoint;
 
-export const getUser = async (userId) => {
-  const endpoint = `user`;
-  const url = `${baseUrl}${endpoint}`;
-
-  try {
-    const response = await axios.get(url, { headers: {"Authorization" : `Bearer ${sessionStorage.getItem("accessToken")}`} });
-  } catch (error) {
-    console.error(`Error fetching user data: ${error}`);
-  }
-};
-
-export const getProjectsByUserId = async (userId) => {
+export const getProjects = async () => {
   const endpoint = `user/projects`;
   const url = `${baseUrl}${endpoint}`;
 
   try {
-    const response = await axios.get(url, { headers: {"Authorization" : `Bearer ${sessionStorage.getItem("accessToken")}`} });
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error(`Error fetching data: ${error}`);
@@ -31,7 +24,11 @@ export const getTasksByProjectId = async (projectId) => {
   const url = `${baseUrl}${endpoint}`;
 
   try {
-    const response = await axios.get(url, { headers: {"Authorization" : `Bearer ${sessionStorage.getItem("accessToken")}`} });
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error(`Error fetching data: ${error}`);
@@ -47,7 +44,8 @@ export const createProject = async (
   const url = `${baseUrl}${endpoint}`;
 
   try {
-    const response = await axios.post(url, 
+    const response = await axios.post(
+      url,
       {
         userId: userId,
         projectName: projectName,
@@ -55,8 +53,11 @@ export const createProject = async (
         withCredentials: true,
       },
       {
-        headers: {"Authorization" : `Bearer ${sessionStorage.getItem("accessToken")}`} 
-       });
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      }
+    );
 
     return response;
   } catch (error) {
@@ -75,16 +76,21 @@ export const editProject = async (
   const url = `${baseUrl}${endpoint}`;
 
   try {
-    const response = await axios.patch(url, {
-      projectId: projectId,
-      userId: userId,
-      projectName: projectName,
-      description: projectDescription,
-      withCredentials: true,
-    },
-    {
-      headers: {"Authorization" : `Bearer ${sessionStorage.getItem("accessToken")}`} 
-     });
+    const response = await axios.patch(
+      url,
+      {
+        projectId: projectId,
+        userId: userId,
+        projectName: projectName,
+        description: projectDescription,
+        withCredentials: true,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      }
+    );
 
     return response;
   } catch (error) {
@@ -103,17 +109,22 @@ export const createTask = async (
   const url = `${baseUrl}${endpoint}`;
 
   try {
-    const response = await axios.post(url, {
-      projectId: projectId,
-      taskName: taskName,
-      description: taskDescription,
-      priorityId: priorityId,
-      duration: 0,
-      withCredentials: true,
-    },
-    {
-      headers: {"Authorization" : `Bearer ${sessionStorage.getItem("accessToken")}`} 
-     });
+    const response = await axios.post(
+      url,
+      {
+        projectId: projectId,
+        taskName: taskName,
+        description: taskDescription,
+        priorityId: priorityId,
+        duration: 0,
+        withCredentials: true,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      }
+    );
 
     return response;
   } catch (error) {
@@ -134,18 +145,23 @@ export const editTask = async (
   const url = `${baseUrl}${endpoint}`;
 
   try {
-    const response = await axios.patch(url, {
-      taskId: taskId,
-      projectId: projectId,
-      taskName: taskName,
-      description: taskDescription,
-      priorityId: priorityId,
-      duration: duration,
-      withCredentials: true,
-    },
-    {
-      headers: {"Authorization" : `Bearer ${sessionStorage.getItem("accessToken")}`} 
-     });
+    const response = await axios.patch(
+      url,
+      {
+        taskId: taskId,
+        projectId: projectId,
+        taskName: taskName,
+        description: taskDescription,
+        priorityId: priorityId,
+        duration: duration,
+        withCredentials: true,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+        },
+      }
+    );
 
     return response;
   } catch (error) {
@@ -154,6 +170,5 @@ export const editTask = async (
   }
 };
 
-// Get Task (for the timer page) (not needed?)
 // Delete project
 // Delete Task
