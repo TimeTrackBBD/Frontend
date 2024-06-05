@@ -10,7 +10,7 @@ import {
   AccordionDetails,
   AccordionSummary,
 } from "@mui/material";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
@@ -21,9 +21,10 @@ import { ProjectModal } from "../../Components/ProjectModal/ProjectModal";
 import { TaskModal } from "../../Components/TaskModal/TaskModal";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { getProjectsByUserId, getTasksByProjectId } from "../../api/api";
+import { getProjects, getTasksByProjectId } from "../../api/api";
 import { TaskCard } from "../../Components/TaskCard/TaskCard";
-import DeleteIcon from '@mui/icons-material/Delete';
+import CircularProgress from "@mui/material/CircularProgress";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const getTotalTime = (project) => {
   let totalTime = project.tasks.reduce(
@@ -41,6 +42,7 @@ export const HomePage = () => {
   const [isEditProject, setIsEditProject] = useState(false);
   const [projectToEdit, setProjectToEdit] = useState();
   const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleProjectModalOpen = (edit, project) => {
     setIsEditProject(edit);
@@ -76,9 +78,10 @@ export const HomePage = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await getProjectsByUserId(1);
+      setLoading(true);
+      const response = await getProjects();
       let project = {};
-      for (let i = 1; i < response.length; i++) {
+      for (let i = 0; i < response.length; i++) {
         project = response[i];
         let tasks = await fetchTasks(project["projectId"]);
         project["tasks"] = tasks;
@@ -86,52 +89,20 @@ export const HomePage = () => {
       }
     } catch (error) {
       console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    // fetchProjects();
-    setProjects([
-      {
-          projectId: 4,
-          userId : 1,
-          projectName : "Lovely stuff123",
-          description: "Beautiful",
-      tasks:[{
-          taskId : 10,
-          projectId: 4,
-          priorityId: 2,
-          taskName: "Test123333",
-          description: "The bets description ever and I hope it breaks my website so much pls wbreak break break break! Lets make this even longer and longer!",
-          duration: 15
-      },
-      {
-          taskId: 11,
-          projectId: 4,
-          priorityId: 1,
-          taskName: "The best one",
-          description: "oh yeee",
-          duration: 45
-      }]
-      }
-  ])
+    fetchProjects();
   }, []);
 
   return (
     <Box className="home-page-container">
       <AppBar position="static" className="appBar">
         <Toolbar>
-        <Button
-            onClick={async () => {
-              await updateTask();
-              navigate("/home");
-            }}
-            startIcon={<ArrowBackIcon />}
-            className="BackButton"
-            size="medium"
-          >
-            Back
-          </Button>
+          <Button sx={{ visibility: "hidden" }}>Back</Button>
           <Box
             sx={{
               flexGrow: 1,
@@ -164,129 +135,160 @@ export const HomePage = () => {
         </Toolbar>
       </AppBar>
 
-      <Box className="content-wrapper">
-        <Paper square elevation={0} className="header-container">
+      {loading ? (
+        <section
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+          }}
+        >
+          <CircularProgress color="inherit" />
           <Typography variant="h5" fontWeight={600}>
-            Your projects
+            Loading your projects...
           </Typography>
-          <Button
-            style={{ marginLeft: "auto" }}
-            variant="contained"
-            className="create-project-button"
-            onClick={() => handleProjectModalOpen(false, null)}
-          >
-            Create new project
-          </Button>
-        </Paper>
-
-        {projects?.map((project, index) => (
-          <Accordion key={index} className="accordion">
-            <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
-              <Typography variant="h6" fontWeight={600}>
-                {project.projectName}
-              </Typography>
-              <IconButton
-                sx={{
-                  color: "#01013e",
-                  padding: 0,
-                  cursor: "pointer",
-                }}
-                onClick={() => handleProjectModalOpen(true, project)}
-                color="primary"
-                aria-label="edit"
-              >
-                <EditIcon
-                  sx={{
-                    paddingLeft: "0.5rem",
-                    fontSize: "1.3rem",
-                    display: "flex",
-                    justifySelf: "center",
-                  }}
-                />
-              </IconButton>
-              <IconButton
-                sx={{
-                  color: "#01013e",
-                  padding: 0,
-                  cursor: "pointer",
-                }}
-                onClick={() => handleProjectModalOpen(true, project)}
-                color="primary"
-                aria-label="edit"
-              >
-                <DeleteIcon
-                  sx={{
-                    paddingLeft: "0.5rem",
-                    fontSize: "1.3rem",
-                    display: "flex",
-                    justifySelf: "center",
-                  }}
-                />
-              </IconButton>
-              <Typography
-                variant="body1"
-                fontWeight={600}
-                marginLeft={"auto"}
-                alignSelf={"center"}
-              >
-                {"Total time spent: " +
-                  formatTimeWithUnits(getTotalTime(project))}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails
-              style={{
-                display: "flex",
-                flexDirection: "column",
-              }}
+        </section>
+      ) : (
+        <Box className="content-wrapper">
+          <Paper square elevation={0} className="header-container">
+            <Typography variant="h5" fontWeight={600}>
+              Your projects
+            </Typography>
+            <Button
+              style={{ marginLeft: "auto" }}
+              variant="contained"
+              className="create-project-button"
+              onClick={() => handleProjectModalOpen(false, null)}
             >
-              <Button
-                className="create-task-button"
-                variant="contained"
-                onClick={() => handleTaskModalOpen(project)}
-              >
-                Create task
-              </Button>
-              <IconButton
-                sx={{
-                  color: "#01013e",
-                  padding: 0,
-                  cursor: "pointer",
-                }}
-                onClick={() => handleProjectModalOpen(true, project)}
-                color="primary"
-                aria-label="edit"
-              >
-                <DeleteIcon
-                  sx={{
-                    paddingLeft: "0.5rem",
-                    fontSize: "1.3rem",
+              Create new project
+            </Button>
+          </Paper>
+          {!!projects.length > 0 ? (
+            projects?.map((project, index) => (
+              <Accordion key={index} className="accordion">
+                <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
+                  <Typography variant="h6" fontWeight={600}>
+                    {project.projectName}
+                  </Typography>
+                  <IconButton
+                    sx={{
+                      color: "#01013e",
+                      padding: 0,
+                      cursor: "pointer",
+                    }}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handleProjectModalOpen(true, project);
+                    }}
+                    color="primary"
+                    aria-label="edit"
+                  >
+                    <EditIcon
+                      sx={{
+                        paddingLeft: "0.5rem",
+                        fontSize: "1.3rem",
+                        display: "flex",
+                        justifySelf: "center",
+                      }}
+                    />
+                  </IconButton>
+                  <IconButton
+                    sx={{
+                      color: "#01013e",
+                      padding: 0,
+                      cursor: "pointer",
+                    }}
+                    onClick={() => handleProjectModalOpen(true, project)}
+                    color="primary"
+                    aria-label="edit"
+                  >
+                    <DeleteIcon
+                      sx={{
+                        paddingLeft: "0.5rem",
+                        fontSize: "1.3rem",
+                        display: "flex",
+                        justifySelf: "center",
+                      }}
+                    />
+                  </IconButton>
+                  <Typography
+                    variant="body1"
+                    fontWeight={600}
+                    marginLeft={"auto"}
+                    alignSelf={"center"}
+                  >
+                    {"Total time spent: " +
+                      formatTimeWithUnits(getTotalTime(project))}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails
+                  style={{
                     display: "flex",
-                    justifySelf: "center",
+                    flexDirection: "column",
                   }}
-                />
-              </IconButton>
-              <Paper square elevation={0}>
-                {project?.tasks.map((task) => (
-                  //TODO: Allow user to edit task
-                  <TaskCard task={task}></TaskCard>
-                ))}
-              </Paper>
-            </AccordionDetails>
-          </Accordion>
-        ))}
-        <ProjectModal
-          isOpen={isProjectModalOpen}
-          handleModalClose={handleProjectModalClose}
-          edit={isEditProject}
-          project={projectToEdit}
-        />
-        <TaskModal
-          isOpen={isTaskModalOpen}
-          handleModalClose={handleTaskModalClose}
-          edit={false}
-          project={projectToEdit}
-        />
-      </Box>
+                >
+                  <Button
+                    className="create-task-button"
+                    variant="contained"
+                    onClick={() => handleTaskModalOpen(project)}
+                  >
+                    Create task
+                  </Button>
+
+                  <Paper square elevation={0}>
+                    {!!project?.tasks.length > 0 ? (
+                      project?.tasks.map((task) => (
+                        <TaskCard task={task}></TaskCard>
+                      ))
+                    ) : (
+                      <Typography
+                        variant="h6"
+                        textAlign="center"
+                        marginTop="3rem"
+                        padding="1rem"
+                        justifyContent="center"
+                        border={"0.3rem solid black"}
+                        sx={{ background: "white" }}
+                      >
+                        No tasks found! Click the button to create a new one!
+                      </Typography>
+                    )}
+                  </Paper>
+                </AccordionDetails>
+              </Accordion>
+            ))
+          ) : (
+            <Typography
+              variant="h4"
+              textAlign="center"
+              marginTop="3rem"
+              padding="1rem"
+              justifyContent="center"
+              border={"0.3rem solid black"}
+              sx={{ background: "white" }}
+            >
+              No projects found! Click the button to create a new one!
+            </Typography>
+          )}
+
+          <ProjectModal
+            isOpen={isProjectModalOpen}
+            handleModalClose={handleProjectModalClose}
+            setIsModalOpen={setIsProjectModalOpen}
+            edit={isEditProject}
+            project={projectToEdit}
+          />
+          <TaskModal
+            isOpen={isTaskModalOpen}
+            handleModalClose={handleTaskModalClose}
+            setIsModalOpen={setIsTaskModalOpen}
+            edit={false}
+            project={projectToEdit}
+          />
+        </Box>
+      )}
     </Box>
   );
 };

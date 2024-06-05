@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { AppBar, Box, Toolbar, Typography, Button, Grid, Paper } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  Typography,
+  Button,
+  Grid,
+  Paper,
+} from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
@@ -7,6 +15,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { formatTime } from "../../utils/utils";
 import { editTask } from "../../api/api";
 import "./TimerPage.css";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 export const TimerPage = () => {
   const navigate = useNavigate();
@@ -15,6 +28,9 @@ export const TimerPage = () => {
 
   const [time, setTime] = useState(task?.duration);
   const [isRunning, setIsRunning] = useState(false);
+  const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
+  const [isLeaveDialogOpen, setIsLeaveDialogOpen] = useState(false);
+  const [dialogueText, setDialogueText] = useState("");
 
   useEffect(() => {
     let timer;
@@ -44,8 +60,11 @@ export const TimerPage = () => {
         task?.priorityId,
         time
       );
+      setDialogueText("Your time has been captured!");
     } catch (error) {
-      console.error("Error updating task:", error);
+      setDialogueText("Time could not be captured!");
+    } finally {
+      setIsSaveDialogOpen(true);
     }
   };
 
@@ -55,8 +74,12 @@ export const TimerPage = () => {
         <Toolbar>
           <Button
             onClick={async () => {
-              await updateTask();
-              navigate("/home");
+              if (isRunning) {
+                setIsLeaveDialogOpen(true);
+              } else {
+                await updateTask();
+                navigate("/home");
+              }
             }}
             startIcon={<ArrowBackIcon />}
             className="BackButton"
@@ -84,9 +107,12 @@ export const TimerPage = () => {
           <Button
             variant="contained"
             onClick={async () => {
-              await updateTask();
-              sessionStorage.clear();
-              navigate("/");
+              if (isRunning) {
+                setIsLeaveDialogOpen(true);
+              } else {
+                sessionStorage.clear();
+                navigate("/");
+              }
             }}
             startIcon={<LogoutIcon />}
             className="LogoutButton"
@@ -106,7 +132,11 @@ export const TimerPage = () => {
         <Grid item>
           <Paper
             elevation={0}
-            sx={{ display: "flex", flexDirection: "row", justifyContent: "center" }}
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
           >
             <Typography variant="h2" className="task-name" align="center">
               {task.taskName}
@@ -126,12 +156,11 @@ export const TimerPage = () => {
         <Grid item container justifyContent="center" spacing={2}>
           <Grid item>
             <Button
-              onClick={handleStart}
+              onClick={isRunning ? handlePause : handleStart}
               className="startButton"
               size="large"
-              disabled={isRunning}
             >
-              Start
+              {!isRunning ? "Start" : "Pause"}
             </Button>
           </Grid>
           <Grid item>
@@ -148,6 +177,44 @@ export const TimerPage = () => {
           </Grid>
         </Grid>
       </Grid>
+      <Dialog open={isSaveDialogOpen} type>
+        <DialogTitle id="alert-dialog-title">
+          {dialogueText == "Your time has been captured!" ? "Saved" : "Error"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{dialogueText}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            color="primary"
+            autoFocus
+            onClick={() => {
+              setIsSaveDialogOpen(false);
+            }}
+          >
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={isLeaveDialogOpen} type>
+        <DialogTitle id="alert-dialog-title">{"Alert!"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {"Please stop your timer before leaving!"}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            color="primary"
+            autoFocus
+            onClick={() => {
+              setIsLeaveDialogOpen(false);
+            }}
+          >
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
