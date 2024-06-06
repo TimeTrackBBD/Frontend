@@ -33,7 +33,7 @@ jobs:
         run: npm run build
 
       - name: Zip the build folder
-        run: zip -r build.zip dist .ebextensions package.json package-lock.json server.js
+        run: zip -r build.zip dist .ebextensions public package.json package-lock.json server.js
 
       - name: Get SHA
         id: get_sha
