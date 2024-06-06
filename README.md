@@ -42,6 +42,7 @@ Create a `config.json` file in the root directory of the project with the follow
 }
 ```
 
+
 ### Run the code
 
 - Run the command `npm i` to install the required packages.
