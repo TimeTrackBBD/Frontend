@@ -97,14 +97,12 @@ export const TaskModal = ({
   };
 
   React.useEffect(() => {
-    console.log(taskName);
     setTaskNameValid(
       !!taskName && taskName.length > 2 && taskName.length < 100
     );
   }, [taskName]);
 
   React.useEffect(() => {
-    console.log(description);
     setDescriptionValid(!!description) &&
       description.length > 2 &&
       description.length < 500;
