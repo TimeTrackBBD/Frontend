@@ -16,26 +16,25 @@
 .pendingActionsIcon {
   color: white;
   font-size: 2rem;
-  margin-right: 8px;
+  margin-right: 0.5rem;
 }
 
 .customButton {
-  background-color: #87CEFA !important;
+  background-color: #87cefa !important;
   color: #01013e !important;
   font-family: "Arial", sans-serif;
   font-weight: bold;
   text-transform: lowercase;
   font-variant: small-caps;
-  padding: 10px 20px; /* Slightly larger padding */
-  font-size: 1.1rem; /* Slightly larger font size */
-  border: 2px solid #01013e !important;
+  padding: 0.625rem 1.25rem;
+  font-size: 1.1rem;
+  border: 0.1rem solid #01013e !important;
   transition: background-color 0.3s ease;
 }
 
 .customButton:hover {
-  background-color: #37a8ff !important; /* Slightly darker light blue for hover */
+  background-color: #37a8ff !important;
 }
-
 
 .centerButton {
   display: block;
@@ -52,10 +51,10 @@
 }
 
 .MuiFormControl-root {
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   width: 100%;
 }
 
 .MuiFormControl-root:not(:last-child) {
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }

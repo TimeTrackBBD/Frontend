@@ -34,9 +34,9 @@ export const TaskModal = ({
   project,
   setProjects,
 }) => {
-  const [taskName, setTaskName] = React.useState();
+  const [taskName, setTaskName] = React.useState("");
   const [taskNameValid, setTaskNameValid] = React.useState(false);
-  const [description, setDescription] = React.useState();
+  const [description, setDescription] = React.useState("");
   const [descriptionValid, setDescriptionValid] = React.useState(false);
   const [priority, setPriority] = React.useState("Medium");
   const [priorityValid, setPriorityValid] = React.useState(false);
@@ -47,17 +47,13 @@ export const TaskModal = ({
 
   React.useEffect(() => {
     if (task) {
-      setTaskName(task.taskName);
-      setDescription(task.description);
+      setTaskName(task?.taskName);
+      setDescription(task?.description);
       setPriority(getPriority(task?.priority));
     }
   }, [task]);
 
   const handleClose = () => {
-    setTaskNameValid(false);
-    setDescriptionValid(false);
-    setPriority(false);
-    setErrorChecking(false);
     if (task) {
       setProjects((prevProjects) =>
         prevProjects.map((proj) =>
@@ -79,6 +75,12 @@ export const TaskModal = ({
         )
       );
     }
+    setTaskName("");
+    setDescription("");
+    setErrorChecking(false);
+    setTaskNameValid(false);
+    setDescriptionValid(false);
+    setPriority(false);
     handleModalClose();
   };
 
@@ -95,12 +97,14 @@ export const TaskModal = ({
   };
 
   React.useEffect(() => {
+    console.log(taskName);
     setTaskNameValid(
       !!taskName && taskName.length > 2 && taskName.length < 100
     );
   }, [taskName]);
 
   React.useEffect(() => {
+    console.log(description);
     setDescriptionValid(!!description) &&
       description.length > 2 &&
       description.length < 500;
