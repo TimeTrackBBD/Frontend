@@ -20,17 +20,47 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { isAuthenticated } from "../../api/authenticate";
 
 export const TimerPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const task = location?.state?.task;
+  let task = location?.state?.task;
 
   const [time, setTime] = useState(task?.duration);
   const [isRunning, setIsRunning] = useState(false);
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
   const [isLeaveDialogOpen, setIsLeaveDialogOpen] = useState(false);
   const [dialogueText, setDialogueText] = useState("");
+
+  const validateUser = async () => {
+    const authenticated = await isAuthenticated(); //add this to your component if you want it to check for authentication.
+    if (!authenticated) {
+      navigate("/");
+    }
+  };
+
+  const validateTask = async () => {
+    if (task.taskId==''){
+      navigate('/home')
+    }
+  };
+
+  useEffect(() => {
+    validateUser();
+    validateTask();
+  }, []);
+
+  if (!task){
+    task = {
+      taskId: '',
+      projectId: '',
+      taskName: '',
+      description: '',
+      priorityId: ''
+    }
+
+  }
 
   useEffect(() => {
     let timer;

@@ -25,6 +25,7 @@ import { TaskCard } from "../../Components/TaskCard/TaskCard";
 import CircularProgress from "@mui/material/CircularProgress";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { PopupDialogue } from "../../Components/Dialogue/PopupDialogue";
+import { isAuthenticated } from "../../api/authenticate";
 
 const getTotalTime = (project) => {
   let totalTime = project.tasks.reduce(
@@ -74,6 +75,13 @@ export const HomePage = () => {
     fetchProjects();
   };
 
+  const validateUser = async () => {
+    const authenticated = await isAuthenticated(); //add this to your component if you want it to check for authentication.
+    if (!authenticated) {
+      navigate("/");
+    }
+  };
+
   const fetchTasks = async (projectId) => {
     try {
       const response = await getTasksByProjectId(projectId);
@@ -102,6 +110,7 @@ export const HomePage = () => {
   };
 
   useEffect(() => {
+    validateUser()
     fetchProjects();
   }, []);
 

@@ -13,6 +13,12 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.get('/', (req, res) => {
  res.sendFile(HTML_FILE);
 });
+app.get('/home', (req, res) => {
+    res.sendFile(HTML_FILE);
+   });
+app.get('/timer', (req, res) => {
+res.sendFile(HTML_FILE);
+});
 
 app.listen(port, function () {
  console.log('App listening on http://localhost:' + port);
