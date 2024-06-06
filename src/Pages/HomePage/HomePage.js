@@ -181,7 +181,7 @@ export const HomePage = () => {
                   </Typography>
                   <IconButton
                     sx={{
-                      color: "#01013e",
+                      color: "black",
                       padding: 0,
                       cursor: "pointer",
                     }}
@@ -189,11 +189,11 @@ export const HomePage = () => {
                       event.stopPropagation();
                       handleProjectModalOpen(true, project);
                     }}
-                    color="primary"
                     aria-label="edit"
                   >
                     <EditIcon
                       sx={{
+                        color: "black",
                         paddingLeft: "0.5rem",
                         fontSize: "1.3rem",
                         display: "flex",
@@ -203,7 +203,7 @@ export const HomePage = () => {
                   </IconButton>
                   <IconButton
                     sx={{
-                      color: "#01013e",
+                      color: "black",
                       padding: 0,
                       cursor: "pointer",
                     }}
@@ -216,11 +216,11 @@ export const HomePage = () => {
                         setIsDeleteProjectDialogOpen(true);
                       }
                     }}
-                    color="primary"
                     aria-label="delete"
                   >
                     <DeleteIcon
                       sx={{
+                        color: "black",
                         paddingLeft: "0.5rem",
                         fontSize: "1.3rem",
                         display: "flex",
@@ -286,6 +286,7 @@ export const HomePage = () => {
               padding="1rem"
               justifyContent="center"
               border={"0.3rem solid black"}
+              box-shadow= {"0 0.25rem 0.5rem black !important"}
               sx={{ background: "white" }}
             >
               No projects found! Click the button to create a new one!
