@@ -286,7 +286,7 @@ export const HomePage = () => {
               padding="1rem"
               justifyContent="center"
               border={"0.3rem solid black"}
-              box-shadow= {"0 0.25rem 0.5rem black !important"}
+              box-shadow={"0 0.25rem 0.5rem black !important"}
               sx={{ background: "white" }}
             >
               No projects found! Click the button to create a new one!
@@ -328,6 +328,11 @@ export const HomePage = () => {
               "Are you sure you want to delete this project? It can not be undone."
             }
             primaryButtonText={"Ok"}
+            secondaryButtonText={"Cancel"}
+            secondaryOnClick={() => {
+              setIsDeleteError(false);
+              setIsDeleteProjectDialogOpen(false);
+            }}
           />
           <PopupDialogue
             isOpen={isCanNotDeleteDialogOpen}
