@@ -51,7 +51,7 @@ export const TaskCard = ({ task, project, setProjects }) => {
           </Typography>
           <IconButton
             sx={{
-              color: "#01013e",
+              color: "black",
               padding: 0,
               cursor: "pointer",
             }}
@@ -73,7 +73,7 @@ export const TaskCard = ({ task, project, setProjects }) => {
           </IconButton>
           <IconButton
             sx={{
-              color: "#01013e",
+              color: "black",
               padding: 0,
               cursor: "pointer",
             }}
@@ -127,6 +127,11 @@ export const TaskCard = ({ task, project, setProjects }) => {
           "Are you sure you want to delete this task? It can not be undone."
         }
         primaryButtonText={"Ok"}
+        secondaryButtonText={"Cancel"}
+        secondaryOnClick={() => {
+          setIsDeleteError(false);
+          setIsDeleteDialogueOpen(false);
+        }}
       />
       <PopupDialogue
         isOpen={isDeleteCompleteDialogOpen}

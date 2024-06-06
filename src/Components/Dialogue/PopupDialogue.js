@@ -12,6 +12,8 @@ export const PopupDialogue = ({
   title,
   content,
   primaryButtonText,
+  secondaryButtonText,
+  secondaryOnClick,
 }) => {
   return (
     <Dialog open={isOpen} type>
@@ -29,6 +31,17 @@ export const PopupDialogue = ({
         >
           {primaryButtonText}
         </Button>
+        {secondaryButtonText && secondaryOnClick && (
+          <Button
+            color="primary"
+            autoFocus
+            onClick={() => {
+              secondaryOnClick();
+            }}
+          >
+            {secondaryButtonText}
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );
