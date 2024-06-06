@@ -1,5 +1,5 @@
 body {
-  background-image: linear-gradient(black, white, #00005a);
+  background-image: linear-gradient(black, white);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -60,7 +60,7 @@ body {
   height: 100%;
   overflow: hidden;
   box-sizing: border-box;
-  background-image: linear-gradient(black, white, #00005a);
+  background-image: linear-gradient(black, white);
 }
 
 .modal-content {

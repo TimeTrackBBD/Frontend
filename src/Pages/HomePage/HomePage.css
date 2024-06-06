@@ -3,7 +3,7 @@ body {
   height: 100%;
   margin: 0;
   overflow: hidden;
-  background-image: linear-gradient(black, white, #00005a);
+  background-image: linear-gradient(black, white);
 }
 
 .appBar.MuiAppBar-root {
@@ -41,7 +41,6 @@ body {
   padding: 0.625rem 1.25rem;
   font-size: 1.1rem;
   border: 0.1rem solid white !important;
-  box-shadow: 0 0.25rem 0.5rem white !important;
   transition: background-color 0.3s ease;
 }
 
@@ -57,7 +56,7 @@ body {
   height: 100%;
   overflow: hidden;
   box-sizing: border-box;
-  background-image: linear-gradient(black, white, #00005a);
+  background-image: linear-gradient(black, white);
 }
 
 .content-wrapper {

@@ -30,7 +30,6 @@
   font-variant: small-caps;
   padding: 0.83rem 1.25rem;
   border: 0.125rem solid white !important;
-  box-shadow: 0 0.25rem 0.5rem white !important;
   transition: background-color 0.3s ease;
 }
 
@@ -48,7 +47,6 @@
   padding: 0.625rem 1.25rem;
   font-size: 1.1rem;
   border: 0.125rem solid white !important;
-  box-shadow: 0 0.25rem 0.5rem white !important;
   transition: background-color 0.3s ease;
 }
 
@@ -63,7 +61,7 @@
   justify-content: center;
   height: 100%;
   overflow: hidden;
-  background-image: linear-gradient(black, white, #00005a);
+  background-image: linear-gradient(black, white);
   box-shadow: 0 0.25rem 0.5rem black !important;
 }
 
@@ -83,7 +81,7 @@
 }
 
 .startButton {
-  background-color: #8af06e !important;
+  background-color: #5fb049 !important;
   color: white !important;
   font-family: "Arial", sans-serif;
   font-weight: bold;
@@ -96,10 +94,10 @@
 }
 
 .startButton:hover {
-  background-color: #adffa0 !important;
+  background-color: #9df690 !important;
 }
 .saveButton {
-  background-color: #6ebcf0 !important;
+  background-color: #6db7ec !important;
   color: white !important;
   font-family: "Arial", sans-serif;
   font-weight: bold;
@@ -112,7 +110,7 @@
 }
 
 .saveButton:hover {
-  background-color: #a4d1ef !important;
+  background-color: #9fd7ff!important;
 }
 .task-name {
   font-family: "Arial", sans-serif;
