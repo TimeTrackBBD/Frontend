@@ -68,7 +68,7 @@ export const LoginPage = () => {
   if (busyAuthenticating) {
     message = (
       <Paper className="modal-content">
-        <Typography id="welcome-modal-title" variant="h5" component="h2">
+        <Typography id="welcome-modal-title-2" variant="h5" component="h2">
           Busy authenticating you...
         </Typography>
       </Paper>
